@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class UiEvent : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class UiEvent : MonoBehaviour
     [SerializeField] Button undoBtn;
     [SerializeField] Button resetBtn;
     [SerializeField] Text anText;
+    [SerializeField] Button leftBtn;
+    [SerializeField] Button rightBtn;
+    [SerializeField] Button downBtn;
+    [SerializeField] Button upBtn;
+    [SerializeField] Button snapBtn;
 
     bool drawBtnToggle;
 
@@ -27,6 +33,8 @@ public class UiEvent : MonoBehaviour
     Vector3 velocity = Vector3.zero;
     float smoothTime = 0.3f;
 
+    bool snapping = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +43,11 @@ public class UiEvent : MonoBehaviour
         distMBtn.onClick.AddListener(() => DistMClicked());
         undoBtn.onClick.AddListener(() => undoClicked());
         resetBtn.onClick.AddListener(() => resetClicked());
+        leftBtn.onClick.AddListener(() => leftClicked());
+        rightBtn.onClick.AddListener(() => rightClicked());
+        downBtn.onClick.AddListener(() => downClicked());
+        upBtn.onClick.AddListener(() => upClicked());
+        snapBtn.onClick.AddListener(() => snapClicked());
 
         drawBtnToggle = false;
         pressed = false;
@@ -59,15 +72,25 @@ public class UiEvent : MonoBehaviour
                 }
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
+                    Vector3 calibPoint = hit.point;
+                    if (snapping)
+                    {
+                        double x = calibPoint.x - Math.Truncate(calibPoint.x);
+                        double z = calibPoint.z - Math.Truncate(calibPoint.z);
+                        if (x > 0.5f) calibPoint.x = (int)hit.point.x;
+                        else calibPoint.x = (int)hit.point.x - 1;
+                        if (z > 0.5f) calibPoint.z = (int)hit.point.z;
+                        else calibPoint.z = (int)hit.point.z - 1;
+                    }
                     //capsule.transform.position = hit.point;
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         pressed = true;
-                        startPoint = hit.point;
+                        startPoint = calibPoint;
                     }
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
-                        endPoint = hit.point;
+                        endPoint = calibPoint;
                     }
                     if (Input.GetKeyUp(KeyCode.Mouse0))
                     {
@@ -85,7 +108,7 @@ public class UiEvent : MonoBehaviour
                     }
                     else if (CurrentWall != null)
                     {
-                        CurrentWall.transform.position = hit.point;
+                        CurrentWall.transform.position = calibPoint;
                         CurrentWall.transform.localScale = new Vector3(0.2f, 0.1f, 0.2f);
                     }
 
@@ -160,4 +183,33 @@ public class UiEvent : MonoBehaviour
         }
     }
 
+    public void leftClicked()
+    {
+        cameraTarget = cameraTarget - new Vector3(5, 0, 0);
+    }
+    public void rightClicked()
+    {
+        cameraTarget = cameraTarget + new Vector3(5, 0, 0);
+    }
+    public void downClicked()
+    {
+        cameraTarget = cameraTarget - new Vector3(0, 0, 5);
+    }
+    public void upClicked()
+    {
+        cameraTarget = cameraTarget + new Vector3(0, 0, 5);
+    }
+
+    public void snapClicked()
+    {
+        if (snapping)
+        {
+            snapBtn.GetComponentInChildren<Text>().text = "스내핑 끔";
+        }
+        else
+        {
+            snapBtn.GetComponentInChildren<Text>().text = "스내핑 켬";
+        }
+        snapping = !snapping;
+    }
 }
