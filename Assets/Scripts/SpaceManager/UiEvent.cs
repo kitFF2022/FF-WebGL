@@ -20,8 +20,13 @@ public class UiEvent : MonoBehaviour
     [SerializeField] Button downBtn;
     [SerializeField] Button upBtn;
     [SerializeField] Button snapBtn;
+<<<<<<< HEAD
     [SerializeField] Button PrevBtn;
     [SerializeField] Button NextBtn;
+=======
+    [SerializeField] Button PrevSceneBtn;
+    [SerializeField] Button NextSceneBtn;
+>>>>>>> ba7e9b0feac2ea03d6de5c38797fff15ceca33e2
 
     bool drawBtnToggle;
 
@@ -51,8 +56,13 @@ public class UiEvent : MonoBehaviour
         downBtn.onClick.AddListener(() => downClicked());
         upBtn.onClick.AddListener(() => upClicked());
         snapBtn.onClick.AddListener(() => snapClicked());
+<<<<<<< HEAD
         PrevBtn.onClick.AddListener(() => PrevBtnClicked());
         NextBtn.onClick.AddListener(() => NextBtnClicked());
+=======
+        PrevSceneBtn.onClick.AddListener(() => PrevSceneClicked());
+        NextSceneBtn.onClick.AddListener(() => NextSceneClicked());
+>>>>>>> ba7e9b0feac2ea03d6de5c38797fff15ceca33e2
 
         drawBtnToggle = false;
         pressed = false;
@@ -218,12 +228,20 @@ public class UiEvent : MonoBehaviour
         snapping = !snapping;
     }
 
+<<<<<<< HEAD
     public void PrevBtnClicked()
+=======
+    public void PrevSceneClicked()
+>>>>>>> ba7e9b0feac2ea03d6de5c38797fff15ceca33e2
     {
         SceneManager.LoadScene("Main");
     }
 
+<<<<<<< HEAD
     public void NextBtnClicked()
+=======
+    public void NextSceneClicked()
+>>>>>>> ba7e9b0feac2ea03d6de5c38797fff15ceca33e2
     {
         SceneManager.LoadScene("Scene3");
     }

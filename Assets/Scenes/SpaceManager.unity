@@ -1056,8 +1056,13 @@ MonoBehaviour:
   downBtn: {fileID: 909020230}
   upBtn: {fileID: 1786390913}
   snapBtn: {fileID: 1812102891}
+<<<<<<< HEAD
   PrevBtn: {fileID: 1741622649}
   NextBtn: {fileID: 1140501584}
+=======
+  PrevSceneBtn: {fileID: 1741622649}
+  NextSceneBtn: {fileID: 1140501584}
+>>>>>>> ba7e9b0feac2ea03d6de5c38797fff15ceca33e2
 --- !u!1 &785081123
 GameObject:
   m_ObjectHideFlags: 0

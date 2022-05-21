@@ -28,7 +28,10 @@ public class MainUiEvent : MonoBehaviour
             ProObjDes = new Vector2(-Screen.width, 0);
             //OldProObjDes = new Vector2(1000, 0);
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> ba7e9b0feac2ea03d6de5c38797fff15ceca33e2
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             SceneManager.LoadScene("SpaceManager");
