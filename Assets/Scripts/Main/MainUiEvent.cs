@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainUiEvent : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class MainUiEvent : MonoBehaviour
         {
             ProObjDes = new Vector2(-Screen.width, 0);
             //OldProObjDes = new Vector2(1000, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            SceneManager.LoadScene("SpaceManager");
         }
     }
 }
