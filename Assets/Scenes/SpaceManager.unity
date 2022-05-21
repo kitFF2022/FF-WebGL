@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1056,8 +1056,6 @@ MonoBehaviour:
   downBtn: {fileID: 909020230}
   upBtn: {fileID: 1786390913}
   snapBtn: {fileID: 1812102891}
-  PrevBtn: {fileID: 1741622649}
-  NextBtn: {fileID: 1140501584}
 --- !u!1 &785081123
 GameObject:
   m_ObjectHideFlags: 0

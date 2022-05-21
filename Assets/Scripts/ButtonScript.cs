@@ -119,7 +119,19 @@ public class ButtonScript : MonoBehaviour
 
     public void ObjectDemolitionClicked() {
         Destroy(currentGameObject);
+        Debug.Log(currentGameObject.GetComponent<Shelf>().MaxWater);
+
     }
+
+    public void ObjectCoppyClicked() {
+
+    }
+
+     public void ObjectRePlaceClicked() {
+        Destroy(currentGameObject);
+    }
+
+
 
     public void ObjectButtonClickedUI() {
         Sstate = false;

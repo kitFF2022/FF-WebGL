@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using CodeMonkey.Utils;
 
 public class GridBuildingSystem : MonoBehaviour {
@@ -110,50 +111,52 @@ public class GridBuildingSystem : MonoBehaviour {
         
         }
         if (Input.GetMouseButtonDown(0)) {      // 마우스 왼클릭
-            Vector3 mousePosition = Mouse3D.GetMouseWorldPosition();
-            if(Input.GetKey(KeyCode.LeftShift)) {       //왼 쉬프트 눌러 그리드 활성화
-                grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
+            if(!EventSystem.current.IsPointerOverGameObject()) {
+                Vector3 mousePosition = Mouse3D.GetMouseWorldPosition();
+                if(Input.GetKey(KeyCode.LeftShift)) {       //왼 쉬프트 눌러 그리드 활성화
+                    grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
 
-                GridObject gridObject = grid.GetGridObject(x,z);
-                if (placedObjectTypeSO != null) {
-                if (gridObject.CanBuild()) {
-                    try {
-                        Transform builtplacedObject = Instantiate(placedObjectTypeSO.prefab, grid.GetWorldPosition(x, z)+ new Vector3(grid.cellSize, 0, grid.cellSize) * .5f, Quaternion.Euler(0, ObjectRotation, 0));
-                    gridObject.SetPlacedObject(builtplacedObject);
-                    
-                    }       
-                    catch (NullReferenceException ex) {
-                        
-                    }   
-                    
-                } else {
-                    if(placedObjectTypeSO != null) {
-                        UtilsClass.CreateWorldTextPopup("Cannot Build Here!", mousePosition);
-                    }
-                }
-                }
-            } else {
-                grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
-                GridObject gridObject = grid.GetGridObject(x,z);
-                if (placedObjectTypeSO != null) {
-                if (gridObject.CanBuild()) {
-                    try {
-                        Transform builtplacedObject =  Instantiate(placedObjectTypeSO.prefab, Mouse3D.GetMouseWorldPosition(), Quaternion.Euler(0, ObjectRotation, 0));
+                    GridObject gridObject = grid.GetGridObject(x,z);
+                    if (placedObjectTypeSO != null) {
+                    if (gridObject.CanBuild()) {
+                        try {
+                            Transform builtplacedObject = Instantiate(placedObjectTypeSO.prefab, grid.GetWorldPosition(x, z)+ new Vector3(grid.cellSize, 0, grid.cellSize) * .5f, Quaternion.Euler(0, ObjectRotation, 0));
                         gridObject.SetPlacedObject(builtplacedObject);
                         
-                    }       
-                    catch (NullReferenceException ex) {
+                        }       
+                        catch (NullReferenceException ex) {
+                            
+                        }   
                         
-                    }                
-                    
-                    
-                } else {
-                    if(placedObjectTypeSO != null) {
-                        UtilsClass.CreateWorldTextPopup("Cannot Build Here!", mousePosition);
+                    } else {
+                        if(placedObjectTypeSO != null) {
+                            UtilsClass.CreateWorldTextPopup("Cannot Build Here!", mousePosition);
+                        }
                     }
+                    }
+                } else {
+                    grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
+                    GridObject gridObject = grid.GetGridObject(x,z);
+                    if (placedObjectTypeSO != null) {
+                    if (gridObject.CanBuild()) {
+                        try {
+                            Transform builtplacedObject =  Instantiate(placedObjectTypeSO.prefab, Mouse3D.GetMouseWorldPosition(), Quaternion.Euler(0, ObjectRotation, 0));
+                            gridObject.SetPlacedObject(builtplacedObject);
+                            
+                        }       
+                        catch (NullReferenceException ex) {
+                            
+                        }                
+                        
+                        
+                    } else {
+                        if(placedObjectTypeSO != null) {
+                            UtilsClass.CreateWorldTextPopup("Cannot Build Here!", mousePosition);
+                        }
+                    }
+                    }
+                
                 }
-                }
-            
             }
         
         }
