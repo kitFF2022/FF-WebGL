@@ -117,6 +117,10 @@ public class ButtonScript : MonoBehaviour
         Debug.Log(currentGameObject.GetComponent<Shelf>().MaxWater);
     }
 
+    public void ObjectDemolitionClicked() {
+        Destroy(currentGameObject);
+    }
+
     public void ObjectButtonClickedUI() {
         Sstate = false;
         ScalePopUp.anchoredPosition = Vector3.down * 1000;

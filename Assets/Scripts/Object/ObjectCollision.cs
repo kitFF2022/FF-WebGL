@@ -29,12 +29,7 @@ public class ObjectCollision : MonoBehaviour
     {
         rend.sharedMaterial = material[collisionOn];
 
-        if(Input.GetKeyDown(KeyCode.LeftShift)) {
-            collisionOn = 1;
-        }
-        if(Input.GetKeyUp(KeyCode.LeftShift)) {
-            collisionOn = 0;
-        }
+        
 
 
         
