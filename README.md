@@ -7,4 +7,4 @@
 
 ## build
 
-- entry -> main.scene
+- entry -> Main.unity
