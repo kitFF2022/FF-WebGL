@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     
 
     //"ctr + T" Toggle
-    private bool toggle = false;
+    private bool toggle = true;
     void Start() {
         
     }
@@ -47,6 +47,7 @@ public class CameraController : MonoBehaviour
             CrossHair.SetActive(true);
 
             //Move
+        
             MouseRotate();
             CamMove();
             //Zoom();
@@ -72,13 +73,21 @@ public class CameraController : MonoBehaviour
     }
 
     void MouseRotate() {
-        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
-        float yRotate = transform.eulerAngles.y + yRotateSize;
+        
+        if (Input.GetMouseButton(0)) {
+            
+                float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
+                float yRotate = transform.eulerAngles.y + yRotateSize;
 
-        float xRotateSize = -Input.GetAxis("Mouse Y") * turnSpeed;
-        xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
-    
-        transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
+                float xRotateSize = -Input.GetAxis("Mouse Y") * turnSpeed;
+                xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
+            
+                transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
+            
+            
+        }
+            
+        
     }
 
     void KeyBoardMove() {
