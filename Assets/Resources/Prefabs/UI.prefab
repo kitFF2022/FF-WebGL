@@ -3068,7 +3068,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 846078498796365418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2200e39b5fb574cbdcd79c414d9bd4, type: 3}
+  m_Script: {fileID: 11500000, guid: f42f0a2f80ddda54b86221321f37d05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraController: {fileID: 0}
@@ -3082,11 +3082,11 @@ MonoBehaviour:
   AssetPopUp: {fileID: 846078497364103205}
   GrapicPopUp: {fileID: 846078498005159911}
   HelpPopUp: {fileID: 846078498211572615}
-  PopUpPanelBackGround: {fileID: 846078497615525503}
+  PopUpPanelBackGround: {fileID: 846078498335019655}
   ObjectStatePopup: {fileID: 846078498222515491}
-  targetRectTr: {fileID: 846078497357194848}
+  targetRectTr: {fileID: 0}
   uiCamera: {fileID: 0}
-  menuUITr: {fileID: 846078498222515491}
+  menuUITr: {fileID: 0}
 --- !u!114 &846078498796365416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3248,7 +3248,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7efe575c8570fb74f8aa44e7a1fe4801, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef5d2961800b8b149a43f5895a7093cd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3334,7 +3334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7efe575c8570fb74f8aa44e7a1fe4801, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef5d2961800b8b149a43f5895a7093cd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -41,11 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1807711045885400435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d2c04acd48be40409ece518a5ed8e82, type: 3}
+  m_Script: {fileID: 11500000, guid: 23e670a42115b1045ae04dd96e50c0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedObjectTypeSOList:
-  - {fileID: 11400000, guid: e14a02639c7a1b0448a529cb8e231aac, type: 2}
+  placedObjectTypeSOList: []
 --- !u!114 &1807711045885400432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,7 +54,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1807711045885400435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ddbe0e3ac8ce3340b8d22fa592f4023, type: 3}
+  m_Script: {fileID: 11500000, guid: 521071559df9e8e4ca7c8df2d40d0a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mouseColliderLayerMask:

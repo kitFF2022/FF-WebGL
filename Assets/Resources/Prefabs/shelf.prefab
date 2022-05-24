@@ -1226,10 +1226,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7650239153264312706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbdc5b15217eac4f955c9dcca23f16b, type: 3}
+  m_Script: {fileID: 11500000, guid: e55bcfa43a3c6f249a5c54fd06e4f55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxWater: 0
+  MaxWater: 1
   CurrentWater: 0
   MaxLight: 0
   CurrentLight: 0

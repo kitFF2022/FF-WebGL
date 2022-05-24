@@ -131,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d2c04acd48be40409ece518a5ed8e82, type: 3}
+  m_Script: {fileID: 11500000, guid: 23e670a42115b1045ae04dd96e50c0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &334536136
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 427a3b377802dd448b7dded829de88ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c63239f4b722a54d992bf22b86b8f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &681205650 stripped
@@ -575,6 +575,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1807711045885400434, guid: 5abf781ee88d13b42bda0528dea8e0e9,
+        type: 3}
+      propertyPath: placedObjectTypeSOList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807711045885400434, guid: 5abf781ee88d13b42bda0528dea8e0e9,
+        type: 3}
+      propertyPath: placedObjectTypeSOList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: be61dcb327155d44faf80ff4889a1e85,
+        type: 2}
     - target: {fileID: 1807711045885400435, guid: 5abf781ee88d13b42bda0528dea8e0e9,
         type: 3}
       propertyPath: m_Name
