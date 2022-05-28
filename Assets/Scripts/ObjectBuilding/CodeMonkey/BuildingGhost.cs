@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingGhost : MonoBehaviour {
 
-    private Transform visual;
+    public Transform visual;
     private Transform visualtemp;
     private Transform Redvisual;
 
@@ -47,10 +47,10 @@ public class BuildingGhost : MonoBehaviour {
 
     private void LateUpdate() {
      
-        Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition();
-        targetPosition.y = 1f;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetPlacedObjectRotation(), Time.deltaTime * 15f);
+        //Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition();
+        //targetPosition.y = 1f;
+        //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetPlacedObjectRotation(), Time.deltaTime * 15f);
     }
 
     private void RefreshVisual() {
@@ -63,10 +63,10 @@ public class BuildingGhost : MonoBehaviour {
 
         if (placedObjectTypeSO != null) {
             visual = Instantiate(placedObjectTypeSO.visual, Vector3.zero, Quaternion.identity);
-            visual.parent = transform;
+            //visual.parent = transform;
             visual.localPosition = Vector3.zero;
             visual.localEulerAngles = Vector3.zero;
-            SetLayerRecursive(visual.gameObject, 11);
+            SetLayerRecursive(visual.gameObject, 8);
         }
     }
 

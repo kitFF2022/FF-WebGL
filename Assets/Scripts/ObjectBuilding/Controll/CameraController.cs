@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -22,9 +23,9 @@ public class CameraController : MonoBehaviour
     
 
     //"ctr + T" Toggle
-    private bool toggle = true;
+    private bool toggle = false;
     void Start() {
-        
+        StartCoroutine(MouseRotate());
     }
 
     public bool GetToggle() {
@@ -40,23 +41,23 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        
+        CamMove();
+
         if(toggle) {
             //mouse Hide and Lock
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            CrossHair.SetActive(true);
 
             //Move
         
-            MouseRotate();
-            CamMove();
+            WebMouseRotate();
             //Zoom();
         }
 
         else {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            CrossHair.SetActive(false);
         }
 
         if(Input.GetKeyUp(KeyCode.T)) {
@@ -72,22 +73,51 @@ public class CameraController : MonoBehaviour
         toggle = true;
     }
 
-    void MouseRotate() {
-        
-        if (Input.GetMouseButton(0)) {
-            
-                float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
-                float yRotate = transform.eulerAngles.y + yRotateSize;
+    IEnumerator MouseRotate() {
+        while (true)
+        {
+            if (Input.GetMouseButton(0)) {
+                if(!EventSystem.current.IsPointerOverGameObject()) {
+                    float yRotateSize = -Input.GetAxis("Mouse X") * turnSpeed;
+                    float yRotate = transform.eulerAngles.y + yRotateSize;
 
-                float xRotateSize = -Input.GetAxis("Mouse Y") * turnSpeed;
-                xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
+                    float xRotateSize = Input.GetAxis("Mouse Y") * turnSpeed;
+                    xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
+                
+                    transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
+                }
             
-                transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
             
+            }
+            yield return null;
             
         }
+        
+            
+    }
+
+    void WebMouseRotate() {
+        
+        
+            
+        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
+        float yRotate = transform.eulerAngles.y + yRotateSize;
+
+        float xRotateSize = -Input.GetAxis("Mouse Y") * turnSpeed;
+        xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
+    
+        transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
             
         
+    }
+    
+    public void StopCRT() {
+        StopAllCoroutines();
+    }
+
+    public void StartCRT() {
+        StartCoroutine(MouseRotate());
+
     }
 
     void KeyBoardMove() {
