@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CameraController : MonoBehaviour
+public class SubCameraControl : MonoBehaviour
 {
-    public static CameraController Instance { get; private set; }
+    public static SubCameraControl Instance { get; private set; }
 
     //Move Camera Speed and Rotate
     public float turnSpeed = 4.0f;
@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
 
             //Move
         
-            WebMouseRotate();
+            
             //Zoom();
         }
 
@@ -80,13 +80,14 @@ public class CameraController : MonoBehaviour
         {
             if (Input.GetMouseButton(0)) {
                 if(!EventSystem.current.IsPointerOverGameObject()) {
-                    float yRotateSize = -Input.GetAxis("Mouse X") * turnSpeed;
-                    float yRotate = transform.eulerAngles.y + yRotateSize;
+                   
+    
+                    Vector3 move = 
+                    new Vector3(0, 0, 1) * -Input.GetAxis("Mouse Y") + camera.right * -Input.GetAxis("Mouse X");
 
-                    float xRotateSize = Input.GetAxis("Mouse Y") * turnSpeed;
-                    xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
-                
-                    transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
+                    // 이동량을 좌표에 반영
+                    cameraCenter.position += move * moveSpeed *11* Time.deltaTime;
+
                 }
             
             
@@ -124,7 +125,7 @@ public class CameraController : MonoBehaviour
 
     void KeyBoardMove() {
         Vector3 move =
-            transform.forward * Input.GetAxis("Vertical") +
+            transform.up * Input.GetAxis("Vertical") +
             transform.right * Input.GetAxis("Horizontal");
 
         transform.position += move * moveSpeed * Time.deltaTime;
@@ -139,7 +140,7 @@ public class CameraController : MonoBehaviour
 
 
     Vector3 move = 
-    camera.forward * Input.GetAxis("Vertical") + camera.right * Input.GetAxis("Horizontal");
+    new Vector3(0, 0, 1) * Input.GetAxis("Vertical") + camera.right * Input.GetAxis("Horizontal");
 
     // 이동량을 좌표에 반영
     cameraCenter.position += move * moveSpeed * Time.deltaTime;

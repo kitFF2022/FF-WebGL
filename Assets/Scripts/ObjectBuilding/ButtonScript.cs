@@ -19,6 +19,14 @@ public class ButtonScript : MonoBehaviour
     public RectTransform HelpPopUp;
     public GameObject PopUpPanelBackGround;
     public RectTransform ObjectStatePopup;
+    public RectTransform ObjectPlacePopup;
+    public GameObject GoBack2;
+    public GameObject GoBack3;
+    public GameObject ScaleButton;
+
+
+
+
 
     public RectTransform targetRectTr;
     public Camera uiCamera;
@@ -27,6 +35,7 @@ public class ButtonScript : MonoBehaviour
 
     private Vector2 screenPoint;
     private GameObject currentGameObject;
+    private Transform currenttransform;
    
 
 
@@ -52,6 +61,8 @@ public class ButtonScript : MonoBehaviour
             if(Mouse3D.GetMouseClickedObject()) {  
              
                 RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
+                currenttransform = raycastHit.transform;
+
                 currentGameObject = raycastHit.transform.gameObject;
                 Debug.Log(currentGameObject);
                 max = raycastHit.transform.gameObject.GetComponent<Shelf>();
@@ -100,6 +111,19 @@ public class ButtonScript : MonoBehaviour
            }
     }
 
+    public void Go4Clicked() {
+        GoBack2.SetActive(false);
+        GoBack3.SetActive(true);
+        ScaleButton.SetActive(false);
+    }
+
+     public void Go3Clicked() {
+        GoBack2.SetActive(true);
+        GoBack3.SetActive(false);
+        ScaleButton.SetActive(true);
+
+    }
+
     public void ObjectPopUpOn() {
         //카메라 위치
         Vector2 mousePos = Input.mousePosition;
@@ -113,12 +137,34 @@ public class ButtonScript : MonoBehaviour
         
     }
 
+    public void ObjectPlacePopUpOn() {
+        //카메라 위치
+       
+        //Debug.Log(mousePos.ToString());
+        ObjectPlacePopup.anchoredPosition = new Vector2(518, -422);
+  
+        
+        /*RectTransformUtility.ScreenPointToLocalPointInRectangle(targetRectTr, Input.mousePosition, uiCamera, out screenPoint);
+        Debug.Log(screenPoint.ToString());
+        menuUITr.localPosition = screenPoint;*/
+        
+    }
+
+    public void ObjectPlacePopUpOff() {
+
+       
+        ObjectPlacePopup.anchoredPosition = Vector3.down * 1000;
+
+        
+    }
+
     public void ObjectInfoButtonClicked() {
         Debug.Log(currentGameObject.GetComponent<Shelf>().MaxWater);
     }
 
     public void ObjectDemolitionClicked() {
-        Destroy(currentGameObject);
+        Destroy(currenttransform.parent.gameObject);
+
         Debug.Log(currentGameObject.GetComponent<Shelf>().MaxWater);
 
     }
@@ -128,7 +174,7 @@ public class ButtonScript : MonoBehaviour
     }
 
      public void ObjectRePlaceClicked() {
-        Destroy(currentGameObject);
+        Destroy(currenttransform.parent.gameObject);
     }
 
 
