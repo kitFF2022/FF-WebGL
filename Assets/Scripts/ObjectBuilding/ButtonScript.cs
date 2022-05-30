@@ -12,6 +12,8 @@ public class ButtonScript : MonoBehaviour
     public bool Astate = false;
     public bool Gstate = false;
     public bool Hstate = false;
+    public bool Pstate = false;
+
     public RectTransform ScalePopUp;
     public RectTransform ObjectPopUp;
     public RectTransform AssetPopUp;
@@ -22,7 +24,11 @@ public class ButtonScript : MonoBehaviour
     public RectTransform ObjectPlacePopup;
     public GameObject GoBack2;
     public GameObject GoBack3;
-    public GameObject ScaleButton;
+    public GameObject ObjectButton;
+    public GameObject PollButton;
+    public RectTransform PollPopUp;
+
+
 
 
 
@@ -114,13 +120,40 @@ public class ButtonScript : MonoBehaviour
     public void Go4Clicked() {
         GoBack2.SetActive(false);
         GoBack3.SetActive(true);
-        ScaleButton.SetActive(false);
+        ObjectButton.SetActive(false);
+        PollButton.SetActive(true);
     }
+
+    public void PollButtonClicked() {
+
+        if(Pstate == true)
+            {
+                PollPopUp.anchoredPosition = Vector3.down * 1100;
+                Pstate = false;
+                
+            }
+        else {
+            PollPopUp.anchoredPosition = Vector3.zero;
+            Pstate = true;
+
+
+        }
+
+    }
+
+     public void PollButtonClose() {
+        PollPopUp.anchoredPosition = Vector3.down * 1000;
+
+    }
+
+
 
      public void Go3Clicked() {
         GoBack2.SetActive(true);
         GoBack3.SetActive(false);
-        ScaleButton.SetActive(true);
+        ObjectButton.SetActive(true);
+        PollButton.SetActive(false);
+
 
     }
 
