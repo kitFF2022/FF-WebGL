@@ -1,16 +1,4 @@
-﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
- */
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +27,9 @@ public class Window_Graph : MonoBehaviour {
     private Func<int, string> getAxisLabelX;
     private Func<float, string> getAxisLabelY;
 
+    List<int> co2valueList = new List<int>() { 5, 98, 56, 45, 30, 22, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33, 45, 54};
+    List<int> tempvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+
     private void Awake() {
         instance = this;
         // Grab base objects references
@@ -52,17 +43,14 @@ public class Window_Graph : MonoBehaviour {
 
         gameObjectList = new List<GameObject>();
         graphVisualObjectList = new List<IGraphVisualObject>();
-        
-        IGraphVisual lineGraphVisual = new LineGraphVisual(graphContainer, dotSprite, Color.green, new Color(1, 1, 1, .5f));
-        IGraphVisual barChartVisual = new BarChartVisual(graphContainer, Color.white, .8f);
+        Color colorr;
+
+        ColorUtility.TryParseHtmlString("#F58570", out colorr);
+        IGraphVisual co2GraphVisual = new LineGraphVisual(graphContainer, dotSprite, Color.green, new Color(1, 1, 1, .5f));
+        IGraphVisual tempChartVisual = new LineGraphVisual(graphContainer, dotSprite, colorr, new Color(1, 1, 1, .5f));
 
         // Set up buttons
-        transform.Find("barChartBtn").GetComponent<Button_UI>().ClickFunc = () => {
-            SetGraphVisual(barChartVisual);
-        };
-        transform.Find("lineGraphBtn").GetComponent<Button_UI>().ClickFunc = () => {
-            SetGraphVisual(lineGraphVisual);
-        };
+ 
         
         transform.Find("decreaseVisibleAmountBtn").GetComponent<Button_UI>().ClickFunc = () => {
             DecreaseVisibleAmount();
@@ -81,9 +69,21 @@ public class Window_Graph : MonoBehaviour {
         HideTooltip();
 
         // Set up base values
-        List<int> valueList = new List<int>() { 5, 98, 56, 45, 30, 22, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33, 45, 54};
-        ShowGraph(valueList, lineGraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
+        
+        
+    
 
+        //ShowGraph(co2valueList, co2GraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
+        ShowGraph(tempvalueList, tempChartVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
+
+        transform.Find("barChartBtn").GetComponent<Button_UI>().ClickFunc = () => {
+            //co2valueList.Add(1);
+            SetGraphVisual(co2valueList, co2GraphVisual);
+
+        };
+        transform.Find("lineGraphBtn").GetComponent<Button_UI>().ClickFunc = () => {
+            SetGraphVisual(tempvalueList, tempChartVisual);
+        };
         /*
         // Automatically modify graph values and visual
         bool useBarChart = true;
@@ -149,10 +149,11 @@ public class Window_Graph : MonoBehaviour {
 
     private void DecreaseVisibleAmount() {
         ShowGraph(this.valueList, this.graphVisual, this.maxVisibleValueAmount - 1, this.getAxisLabelX, this.getAxisLabelY);
+
     }
 
-    private void SetGraphVisual(IGraphVisual graphVisual) {
-        ShowGraph(this.valueList, graphVisual, this.maxVisibleValueAmount, this.getAxisLabelX, this.getAxisLabelY);
+    private void SetGraphVisual(List<int> valueList, IGraphVisual graphVisual) {
+        ShowGraph(valueList, graphVisual, this.maxVisibleValueAmount, this.getAxisLabelX, this.getAxisLabelY);
     }
 
     private void ShowGraph(List<int> valueList, IGraphVisual graphVisual, int maxVisibleValueAmount = -1, Func<int, string> getAxisLabelX = null, Func<float, string> getAxisLabelY = null) {
@@ -160,7 +161,6 @@ public class Window_Graph : MonoBehaviour {
         this.graphVisual = graphVisual;
         this.getAxisLabelX = getAxisLabelX;
         this.getAxisLabelY = getAxisLabelY;
-
         if (maxVisibleValueAmount <= 0) {
             // Show all if no amount specified
             maxVisibleValueAmount = valueList.Count;
