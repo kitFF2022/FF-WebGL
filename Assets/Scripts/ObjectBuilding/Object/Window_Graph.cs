@@ -77,7 +77,7 @@ public class Window_Graph : MonoBehaviour {
         ShowGraph(tempvalueList, tempChartVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
 
         transform.Find("barChartBtn").GetComponent<Button_UI>().ClickFunc = () => {
-            //co2valueList.Add(1);
+            co2valueList.Add(1);
             SetGraphVisual(co2valueList, co2GraphVisual);
 
         };

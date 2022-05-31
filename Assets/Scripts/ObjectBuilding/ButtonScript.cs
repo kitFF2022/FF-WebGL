@@ -7,6 +7,7 @@ public class ButtonScript : MonoBehaviour
     [SerializeField] public GameObject cameraController;
     private PlacedObjectTypeSO placedObjectTypeSO;
     private Shelf max;
+    public bool IsSceneFour = false;
     public bool Sstate = false;
     public bool Ostate = false;
     public bool Astate = false;
@@ -118,6 +119,7 @@ public class ButtonScript : MonoBehaviour
     }
 
     public void Go4Clicked() {
+        IsSceneFour = true;
         GoBack2.SetActive(false);
         GoBack3.SetActive(true);
         ObjectButton.SetActive(false);
@@ -149,6 +151,7 @@ public class ButtonScript : MonoBehaviour
 
 
      public void Go3Clicked() {
+        IsSceneFour = false;
         GoBack2.SetActive(true);
         GoBack3.SetActive(false);
         ObjectButton.SetActive(true);

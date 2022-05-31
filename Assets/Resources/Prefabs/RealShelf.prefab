@@ -430,7 +430,7 @@ PrefabInstance:
     - target: {fileID: 7494840703011386286, guid: 9c9330fee24aeac42909adff78ea8fe6,
         type: 3}
       propertyPath: m_Name
-      value: shelfRedvisual
+      value: RealShelf
       objectReference: {fileID: 0}
     - target: {fileID: 7494840703011386286, guid: 9c9330fee24aeac42909adff78ea8fe6,
         type: 3}

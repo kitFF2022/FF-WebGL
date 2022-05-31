@@ -1233,6 +1233,8 @@ MonoBehaviour:
   CurrentWater: 0
   MaxLight: 0
   CurrentLight: 0
+  plantWater: 0
+  plant: 0
 --- !u!1 &7845041782275707974
 GameObject:
   m_ObjectHideFlags: 0

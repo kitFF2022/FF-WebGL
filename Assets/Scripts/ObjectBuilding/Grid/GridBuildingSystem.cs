@@ -102,9 +102,11 @@ public class GridBuildingSystem : MonoBehaviour {
                 buildingGhost = ghost.GetComponent<BuildingGhost>();
         var visual = buildingGhost.visual;
         Debug.Log(visual);
-        visual = visual.GetChild(1).transform;
+        Debug.Log(visual.GetChild(0).transform);
+        
+        visual = visual.GetChild(0).transform;
         Debug.Log(visual);
-        Vector3 ghostPosition = buildingGhost.visual.GetChild(1).transform.position;
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
         Debug.Log(ghostPosition);
 
 
@@ -114,7 +116,7 @@ public class GridBuildingSystem : MonoBehaviour {
     public void PlaceButtonClicked() {
         buildingGhost = ghost.GetComponent<BuildingGhost>();
         var visual = buildingGhost.visual;
-        Vector3 ghostPosition = buildingGhost.visual.GetChild(1).transform.position;
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
 
         if(Input.GetKey(KeyCode.LeftShift)) {       //왼 쉬프트 눌러 그리드 활성화
             grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
