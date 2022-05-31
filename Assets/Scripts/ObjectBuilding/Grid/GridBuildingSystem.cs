@@ -112,6 +112,33 @@ public class GridBuildingSystem : MonoBehaviour {
 
 
     }      
+    public void BoilerButtonClickedGrid() {
+        placedObjectTypeSO = placedObjectTypeSOList[1]; RefreshSelectedObjectType();
+                buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        Debug.Log(visual);
+        Debug.Log(visual.GetChild(0).transform);
+        
+        visual = visual.GetChild(0).transform;
+        Debug.Log(visual);
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
+        Debug.Log(ghostPosition);
+
+    }     
+
+    public void WaterTankButtonClickedGrid() {
+        placedObjectTypeSO = placedObjectTypeSOList[2]; RefreshSelectedObjectType();
+                buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        Debug.Log(visual);
+        Debug.Log(visual.GetChild(0).transform);
+        
+        visual = visual.GetChild(0).transform;
+        Debug.Log(visual);
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
+        Debug.Log(ghostPosition);
+
+    }     
 
     public void PlaceButtonClicked() {
         buildingGhost = ghost.GetComponent<BuildingGhost>();

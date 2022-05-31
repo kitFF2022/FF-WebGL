@@ -5,9 +5,14 @@ using UnityEngine;
 public class ButtonScript : MonoBehaviour
 {
     [SerializeField] public GameObject cameraController;
+
+    [SerializeField] private Transform cameraCenter;
+    [SerializeField] private Transform camera;
+
     private PlacedObjectTypeSO placedObjectTypeSO;
     private Shelf max;
     public bool IsSceneFour = false;
+    public bool IsObjectClickedInScene4 = false;
     public bool Sstate = false;
     public bool Ostate = false;
     public bool Astate = false;
@@ -43,49 +48,103 @@ public class ButtonScript : MonoBehaviour
     private Vector2 screenPoint;
     private GameObject currentGameObject;
     private Transform currenttransform;
-   
 
+    public Vector3 currenttransformFront;
+    public Vector3 cameraTarget;
+
+    
 
     void Start()
    {
     PopUpPanelBackGround.SetActive(false);
     ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
     uiCamera = Camera.main;
+    currenttransformFront = Vector3.zero;
+    cameraTarget = cameraCenter.transform.position- new Vector3(0,1,0);
    }
 
    private void Update() {
-    if (Input.GetMouseButtonUp(0)) {          // 왼 클릭으로 취소
+        if(IsObjectClickedInScene4 == true) {
+            camera.position = Vector3.Lerp(camera.position, currenttransformFront, 0.01f); 
+            camera.transform.LookAt(cameraTarget);
+        }
+        if(IsObjectClickedInScene4 == false) {
+            camera.transform.eulerAngles = new Vector3(90,0,0);
+        }
 
-        ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
 
-        
+        if (Input.GetMouseButtonUp(0)) {          // 왼 클릭으로 취소
 
-    }
-    if (Input.GetMouseButtonUp(1)) {      //오른 클릭으로 오브젝트 클릭
-        placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
-        if(placedObjectTypeSO == null) {
-
-            if(Mouse3D.GetMouseClickedObject()) {  
-             
-                RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
-                currenttransform = raycastHit.transform;
-
-                currentGameObject = raycastHit.transform.gameObject;
-                Debug.Log(currentGameObject);
-                max = raycastHit.transform.gameObject.GetComponent<Shelf>();
-                Debug.Log(max);
-                ObjectPopUpOn();
-                //CameraController.Instance.toggleFalsed();
-                cameraController.GetComponent<CameraController>().SetToggle(false);
-
-            } else {
-                ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
+            ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
 
             
+
+        }
+        if (Input.GetMouseButtonUp(1)) {      //오른 클릭으로 오브젝트 클릭
+            placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
+            if(placedObjectTypeSO == null) {
+
+                if(Mouse3D.GetMouseClickedObject()) {  
+                
+                    RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
+                    currenttransform = raycastHit.transform;
+
+                    currentGameObject = raycastHit.transform.gameObject;
+                    Debug.Log(currentGameObject);
+                    max = raycastHit.transform.gameObject.GetComponent<Shelf>();
+                    Debug.Log(max);
+                    ObjectPopUpOn();
+                    //CameraController.Instance.toggleFalsed();
+                    cameraController.GetComponent<CameraController>().SetToggle(false);
+
+                } else {
+                    ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
+
+                
+                }
+            }
+            
+        } 
+        if (Input.GetMouseButtonUp(0)) {
+            if(IsSceneFour == true) {
+                if(placedObjectTypeSO == null) {
+
+                    if(Mouse3D.GetMouseClickedObject()) {  
+                        IsObjectClickedInScene4 = true;
+                        RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
+                        currenttransform = raycastHit.transform;
+                        currenttransformFront = currenttransform.position + currenttransform.parent.forward*10 + currenttransform.parent.right*10 + new Vector3(0,10,0);
+                        Debug.Log(currenttransform.position);
+                        Debug.Log(currenttransformFront);
+                        cameraTarget = currenttransform.position + currenttransform.parent.forward*3 + currenttransform.parent.right*-5;
+                        
+                        currentGameObject = raycastHit.transform.gameObject;
+                        
+                        max = raycastHit.transform.gameObject.GetComponent<Shelf>();
+                        Debug.Log(max);
+                        //ObjectPopUpOn();
+                        //CameraController.Instance.toggleFalsed();
+                        cameraController.GetComponent<CameraController>().SetToggle(false);
+                        camera.GetComponent<Camera>().orthographic = false;
+                        //camera.position = Vector3.Lerp(camera.position, currenttransformFront, 0.05f); 
+                        
+
+                    } else {
+                        
+                        currenttransformFront = cameraCenter.transform.position;
+                        camera.position = currenttransformFront;
+                        //IsObjectClickedInScene4 = false;
+
+                        ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
+                        IsObjectClickedInScene4 = false;
+                        camera.GetComponent<Camera>().orthographic = true;
+                        
+                        
+                    
+                    }
+                }
             }
         }
-        
-    } 
     
    }
   

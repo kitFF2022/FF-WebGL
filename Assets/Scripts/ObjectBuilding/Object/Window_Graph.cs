@@ -29,6 +29,10 @@ public class Window_Graph : MonoBehaviour {
 
     List<int> co2valueList = new List<int>() { 5, 98, 56, 45, 30, 22, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33, 45, 54};
     List<int> tempvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+    List<int> LightvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+    List<int> WatervalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+    List<int> HumidvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+
 
     private void Awake() {
         instance = this;
@@ -43,11 +47,23 @@ public class Window_Graph : MonoBehaviour {
 
         gameObjectList = new List<GameObject>();
         graphVisualObjectList = new List<IGraphVisualObject>();
-        Color colorr;
+        Color tempcolor;
+        Color Lightcolor;
+        Color Watercolor;
+        Color Humidcolor;
 
-        ColorUtility.TryParseHtmlString("#F58570", out colorr);
+        ColorUtility.TryParseHtmlString("#F58570", out tempcolor);
+        ColorUtility.TryParseHtmlString("#FFF659", out Lightcolor);
+        ColorUtility.TryParseHtmlString("#4BB8FB", out Watercolor);
+        ColorUtility.TryParseHtmlString("#3041CB", out Humidcolor);
+
         IGraphVisual co2GraphVisual = new LineGraphVisual(graphContainer, dotSprite, Color.green, new Color(1, 1, 1, .5f));
-        IGraphVisual tempChartVisual = new LineGraphVisual(graphContainer, dotSprite, colorr, new Color(1, 1, 1, .5f));
+        IGraphVisual tempChartVisual = new LineGraphVisual(graphContainer, dotSprite, tempcolor, new Color(1, 1, 1, .5f));
+        IGraphVisual LightChartVisual = new LineGraphVisual(graphContainer, dotSprite, Lightcolor, new Color(1, 1, 1, .5f));
+        IGraphVisual WaterChartVisual = new LineGraphVisual(graphContainer, dotSprite, Watercolor, new Color(1, 1, 1, .5f));
+        IGraphVisual HumidChartVisual = new LineGraphVisual(graphContainer, dotSprite, Humidcolor, new Color(1, 1, 1, .5f));
+
+        
 
         // Set up buttons
  
@@ -84,6 +100,17 @@ public class Window_Graph : MonoBehaviour {
         transform.Find("lineGraphBtn").GetComponent<Button_UI>().ClickFunc = () => {
             SetGraphVisual(tempvalueList, tempChartVisual);
         };
+
+        transform.Find("LightBtn").GetComponent<Button_UI>().ClickFunc = () => {
+            SetGraphVisual(LightvalueList, LightChartVisual);
+        };
+        transform.Find("WaterBtn").GetComponent<Button_UI>().ClickFunc = () => {
+            SetGraphVisual(WatervalueList, WaterChartVisual);
+        };
+        transform.Find("HumidityBtn").GetComponent<Button_UI>().ClickFunc = () => {
+            SetGraphVisual(HumidvalueList, HumidChartVisual);
+        };
+        
         /*
         // Automatically modify graph values and visual
         bool useBarChart = true;

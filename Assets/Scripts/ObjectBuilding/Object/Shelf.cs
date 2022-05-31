@@ -5,11 +5,17 @@ using UnityEngine;
 public class Shelf : MonoBehaviour
 {
     public int MaxWater = 100;
-    public int CurrentWater = 0;
-    public int MaxLight = 100;
-    public int CurrentLight = 100;
-    public int plantWater = 0;
+    public float CurrentWater = 0;
+    public bool MaxLight = false;
+    public float plantInWater = 1;
+    public float plantOutWater = 1;
+
+
+    public float plantInCo2 = 1;
+
     public bool plant = false;
+
+    public bool WaterTank;
 
     void Start() {
         
@@ -18,7 +24,7 @@ public class Shelf : MonoBehaviour
     }
 
     void Update () {
-        CurrentWater -= plantWater;
+        
     }
 
 }

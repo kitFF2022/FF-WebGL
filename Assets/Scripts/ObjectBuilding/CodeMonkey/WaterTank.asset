@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b08fdb419f593124293407f90536f05f, type: 3}
+  m_Name: WaterTank
+  m_EditorClassIdentifier: 
+  nameString: WaterTank
+  prefab: {fileID: 1632741662927070088, guid: 3c614be9476632f47a0f1780c3b7a9ad, type: 3}
+  visual: {fileID: 1718302228349512261, guid: 562a7a04d83e4ee4eb7dd1df737eb540, type: 3}
+  GhostRedvisual: {fileID: 0}
+  water: 0
+  light: []
+  width: 0
+  height: 0
