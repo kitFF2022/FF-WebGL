@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.SceneManagement;
 
 public class UiEvent : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class UiEvent : MonoBehaviour
     [SerializeField] Button downBtn;
     [SerializeField] Button upBtn;
     [SerializeField] Button snapBtn;
+    [SerializeField] Button PrevBtn;
+    [SerializeField] Button NextBtn;
 
     bool drawBtnToggle;
 
@@ -48,6 +51,8 @@ public class UiEvent : MonoBehaviour
         downBtn.onClick.AddListener(() => downClicked());
         upBtn.onClick.AddListener(() => upClicked());
         snapBtn.onClick.AddListener(() => snapClicked());
+        PrevBtn.onClick.AddListener(() => prevSceneBtnClicked());
+        NextBtn.onClick.AddListener(() => nextSceneBtnClicked());
 
         drawBtnToggle = false;
         pressed = false;
@@ -211,5 +216,15 @@ public class UiEvent : MonoBehaviour
             snapBtn.GetComponentInChildren<Text>().text = "스내핑 켬";
         }
         snapping = !snapping;
+    }
+
+    void prevSceneBtnClicked()
+    {
+        SceneManager.LoadScene("Main");
+    }
+
+    void nextSceneBtnClicked()
+    {
+        SceneManager.LoadScene("Scene3");
     }
 }
