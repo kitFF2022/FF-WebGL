@@ -15,9 +15,11 @@ public class GridBuildingSystem : MonoBehaviour {
 
     private GridXZ<GridObject> grid;
     [SerializeField] private List<PlacedObjectTypeSO> placedObjectTypeSOList = null;
+    [SerializeField] private GameObject ghost;
+    BuildingGhost buildingGhost;
     private PlacedObjectTypeSO placedObjectTypeSO;
     private PlacedObjectTypeSO.Dir dir;
-    int ObjectRotation = 0;
+    int ObjectRotation = 180;
 
     
     private void Awake() {
@@ -97,73 +99,130 @@ public class GridBuildingSystem : MonoBehaviour {
 
     public void ObjectButtonClickedGrid() {
         placedObjectTypeSO = placedObjectTypeSOList[0]; RefreshSelectedObjectType();
+                buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        Debug.Log(visual);
+        Debug.Log(visual.GetChild(0).transform);
+        
+        visual = visual.GetChild(0).transform;
+        Debug.Log(visual);
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
+        Debug.Log(ghostPosition);
+
+
 
     }      
+    public void BoilerButtonClickedGrid() {
+        placedObjectTypeSO = placedObjectTypeSOList[1]; RefreshSelectedObjectType();
+                buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        Debug.Log(visual);
+        Debug.Log(visual.GetChild(0).transform);
+        
+        visual = visual.GetChild(0).transform;
+        Debug.Log(visual);
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
+        Debug.Log(ghostPosition);
 
+    }     
 
+    public void WaterTankButtonClickedGrid() {
+        placedObjectTypeSO = placedObjectTypeSOList[2]; RefreshSelectedObjectType();
+                buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        Debug.Log(visual);
+        Debug.Log(visual.GetChild(0).transform);
+        
+        visual = visual.GetChild(0).transform;
+        Debug.Log(visual);
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
+        Debug.Log(ghostPosition);
+
+    }     
+
+    public void PlaceButtonClicked() {
+        buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
+
+        if(Input.GetKey(KeyCode.LeftShift)) {       //왼 쉬프트 눌러 그리드 활성화
+            grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
+
+            GridObject gridObject = grid.GetGridObject(x,z);
+            if (placedObjectTypeSO != null) {
+            if (gridObject.CanBuild()) {
+                try {
+                    Transform builtplacedObject = Instantiate(placedObjectTypeSO.prefab, ghostPosition, Quaternion.Euler(0, ObjectRotation, 0));
+                gridObject.SetPlacedObject(builtplacedObject);
+                
+                }       
+                catch (NullReferenceException ex) {
+                    
+                }   
+                
+            } else {
+                if(placedObjectTypeSO != null) {
+                    UtilsClass.CreateWorldTextPopup("Cannot Build Here!", ghostPosition);
+                }
+            }
+            }
+        } else {
+            grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
+            GridObject gridObject = grid.GetGridObject(x,z);
+            if (placedObjectTypeSO != null) {
+            if (gridObject.CanBuild()) {
+                try {
+                    Transform builtplacedObject =  Instantiate(placedObjectTypeSO.prefab, ghostPosition, Quaternion.Euler(0, ObjectRotation, 0));
+                    gridObject.SetPlacedObject(builtplacedObject);
+                    
+                }       
+                catch (NullReferenceException ex) {
+                    
+                }                
+                
+                
+            } else {
+                if(placedObjectTypeSO != null) {
+                    UtilsClass.CreateWorldTextPopup("Cannot Build Here!", ghostPosition);
+                }
+            }
+            }
+        
+        }
+            
+        
+        
+    }
+    public void DeselectButtonClicked() {
+        DeselectObjectType();
+    }
     
+    public void LeftRotate() {
+        buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        ObjectRotation = ObjectRotation -  15;
+        
+    }
+
+    public void RightRotate() {
+        buildingGhost = ghost.GetComponent<BuildingGhost>();
+        var visual = buildingGhost.visual;
+        ObjectRotation = ObjectRotation +  15;
+        
+    }
     
     private void Update() {
         //if (Input.GetKeyDown(KeyCode.Space)) { placedObjectTypeSO = placedObjectTypeSOList[0]; RefreshSelectedObjectType(); }
 
-        if (placedObjectTypeSO != null) {
+       /* if (placedObjectTypeSO != null) {
+            buildingGhost = ghost.GetComponent<BuildingGhost>();
+            var visual = buildingGhost.visual;
+            visual.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetPlacedObjectRotation(), Time.deltaTime * 15f);
+        
+        }*/  /*      if (placedObjectTypeSO != null) {
             ObjectRotation = ObjectRotation - (int)(Input.GetAxis("Mouse ScrollWheel") * 50.0f);
         
-        }
-        if (Input.GetMouseButtonDown(0)) {      // 마우스 왼클릭
-            if(!EventSystem.current.IsPointerOverGameObject()) {
-                Vector3 mousePosition = Mouse3D.GetMouseWorldPosition();
-                if(Input.GetKey(KeyCode.LeftShift)) {       //왼 쉬프트 눌러 그리드 활성화
-                    grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
-
-                    GridObject gridObject = grid.GetGridObject(x,z);
-                    if (placedObjectTypeSO != null) {
-                    if (gridObject.CanBuild()) {
-                        try {
-                            Transform builtplacedObject = Instantiate(placedObjectTypeSO.prefab, grid.GetWorldPosition(x, z)+ new Vector3(grid.cellSize, 0, grid.cellSize) * .5f, Quaternion.Euler(0, ObjectRotation, 0));
-                        gridObject.SetPlacedObject(builtplacedObject);
-                        
-                        }       
-                        catch (NullReferenceException ex) {
-                            
-                        }   
-                        
-                    } else {
-                        if(placedObjectTypeSO != null) {
-                            UtilsClass.CreateWorldTextPopup("Cannot Build Here!", mousePosition);
-                        }
-                    }
-                    }
-                } else {
-                    grid.GetXZ(Mouse3D.GetMouseWorldPosition(), out int x, out int z);
-                    GridObject gridObject = grid.GetGridObject(x,z);
-                    if (placedObjectTypeSO != null) {
-                    if (gridObject.CanBuild()) {
-                        try {
-                            Transform builtplacedObject =  Instantiate(placedObjectTypeSO.prefab, Mouse3D.GetMouseWorldPosition(), Quaternion.Euler(0, ObjectRotation, 0));
-                            gridObject.SetPlacedObject(builtplacedObject);
-                            
-                        }       
-                        catch (NullReferenceException ex) {
-                            
-                        }                
-                        
-                        
-                    } else {
-                        if(placedObjectTypeSO != null) {
-                            UtilsClass.CreateWorldTextPopup("Cannot Build Here!", mousePosition);
-                        }
-                    }
-                    }
-                
-                }
-            }
-        
-        }
-        if (Input.GetMouseButtonDown(1)) {      //오른쪽 마우스로 빌딩 취소
-            DeselectObjectType();
-        }
- 
+        }*/
 
 
         
@@ -175,7 +234,7 @@ public class GridBuildingSystem : MonoBehaviour {
     
     private void DeselectObjectType() {     // 오브젝트 선택 해제
     placedObjectTypeSO = null; RefreshSelectedObjectType();
-    ObjectRotation = 0;
+    ObjectRotation = 180;
     }
 
         private void RefreshSelectedObjectType() {
@@ -184,7 +243,13 @@ public class GridBuildingSystem : MonoBehaviour {
 
     public Quaternion GetPlacedObjectRotation() {
         if (placedObjectTypeSO != null) {
-            return Quaternion.Euler(0, ObjectRotation, 0);
+            if (placedObjectTypeSO == placedObjectTypeSOList[2]){
+                return Quaternion.Euler(-90, ObjectRotation, 0);
+
+            } else {
+            return Quaternion.Euler(0, ObjectRotation+90, 0);
+
+            }
         } else {
             return Quaternion.identity;
         }

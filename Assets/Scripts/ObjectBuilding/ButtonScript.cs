@@ -1,24 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ButtonScript : MonoBehaviour
 {
     [SerializeField] public GameObject cameraController;
+
+    [SerializeField] private Transform cameraCenter;
+    [SerializeField] private Transform camera;
+
     private PlacedObjectTypeSO placedObjectTypeSO;
     private Shelf max;
+    public bool IsSceneFour = false;
+    public bool IsObjectClickedInScene4 = false;
     public bool Sstate = false;
     public bool Ostate = false;
     public bool Astate = false;
     public bool Gstate = false;
     public bool Hstate = false;
+    public bool Pstate = false;
+
     public RectTransform ScalePopUp;
-    public RectTransform ObjectPopUp;
+    public RectTransform ObjectInfoPopUp;
     public RectTransform AssetPopUp;
     public RectTransform GrapicPopUp;
     public RectTransform HelpPopUp;
     public GameObject PopUpPanelBackGround;
     public RectTransform ObjectStatePopup;
+    public RectTransform ObjectPlacePopup;
+    public GameObject GoBack2;
+    public GameObject GoBack3;
+    public GameObject ObjectButton;
+    public GameObject PollButton;
+    public RectTransform PollPopUp;
+
+
+
+
+
+
 
     public RectTransform targetRectTr;
     public Camera uiCamera;
@@ -27,49 +48,149 @@ public class ButtonScript : MonoBehaviour
 
     private Vector2 screenPoint;
     private GameObject currentGameObject;
-   
+    private Transform currenttransform;
 
+    public Vector3 currenttransformFront;
+    public Vector3 cameraTarget;
+
+    
 
     void Start()
    {
     PopUpPanelBackGround.SetActive(false);
     ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
     uiCamera = Camera.main;
+    currenttransformFront = Vector3.zero;
+    cameraTarget = cameraCenter.transform.position- new Vector3(0,1,0);
    }
 
    private void Update() {
-    if (Input.GetMouseButtonUp(0)) {          // 왼 클릭으로 취소
+        if(IsObjectClickedInScene4 == true) {
+            camera.position = Vector3.Lerp(camera.position, currenttransformFront, 0.01f); 
+            camera.transform.LookAt(cameraTarget);
+        }
+        if(IsObjectClickedInScene4 == false) {
+            camera.transform.eulerAngles = new Vector3(90,0,0);
+        }
 
-        ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
 
-        
+        if (Input.GetMouseButtonUp(0)) {          // 왼 클릭으로 취소
 
-    }
-    if (Input.GetMouseButtonUp(1)) {      //오른 클릭으로 오브젝트 클릭
-        placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
-        if(placedObjectTypeSO == null) {
-
-            if(Mouse3D.GetMouseClickedObject()) {  
-             
-                RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
-                currentGameObject = raycastHit.transform.gameObject;
-                Debug.Log(currentGameObject);
-                max = raycastHit.transform.gameObject.GetComponent<Shelf>();
-                Debug.Log(max);
-                ObjectPopUpOn();
-                //CameraController.Instance.toggleFalsed();
-                cameraController.GetComponent<CameraController>().SetToggle(false);
-
-            } else {
-                ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
+            ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
 
             
+
+        }
+        if (Input.GetMouseButtonUp(1)) {      //오른 클릭으로 오브젝트 클릭
+            placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
+            if(placedObjectTypeSO == null) {
+
+                if(Mouse3D.GetMouseClickedObject()) {  
+                
+                    RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
+                    currenttransform = raycastHit.transform;
+
+                    currentGameObject = raycastHit.transform.gameObject;
+                    Debug.Log(currentGameObject);
+                    max = raycastHit.transform.gameObject.GetComponent<Shelf>();
+                    Debug.Log(max);
+                    ObjectPopUpOn();
+                    //CameraController.Instance.toggleFalsed();
+                    cameraController.GetComponent<CameraController>().SetToggle(false);
+
+                } else {
+                    ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
+
+                
+                }
+            }
+            
+        } 
+        if (Input.GetMouseButtonUp(0)) {
+            if(IsSceneFour == true) {
+                if(placedObjectTypeSO == null) {
+                    if(!EventSystem.current.IsPointerOverGameObject()) {
+                    if(Mouse3D.GetMouseClickedObject()) {  
+                        IsObjectClickedInScene4 = true;
+                        RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
+                        currenttransform = raycastHit.transform;
+                        currenttransformFront = currenttransform.position + currenttransform.parent.forward*10 + currenttransform.parent.right*10 + new Vector3(0,10,0);
+                        Debug.Log(currenttransform.position);
+                        Debug.Log(currenttransformFront);
+                        cameraTarget = currenttransform.position + currenttransform.parent.forward*3 + currenttransform.parent.right*-5;
+                        
+                        currentGameObject = raycastHit.transform.gameObject;
+                        
+                        max = raycastHit.transform.gameObject.GetComponent<Shelf>();
+                        Debug.Log(max);
+                        //ObjectPopUpOn();
+                        //CameraController.Instance.toggleFalsed();
+                        cameraController.GetComponent<CameraController>().SetToggle(false);
+                        camera.GetComponent<Camera>().orthographic = false;
+                        //camera.position = Vector3.Lerp(camera.position, currenttransformFront, 0.05f); 
+                        ObjectInfoPopUp.anchoredPosition = new Vector2(478, -2);
+                        
+
+                    } else {
+                        
+                        currenttransformFront = cameraCenter.transform.position;
+                        camera.position = currenttransformFront;
+                        //IsObjectClickedInScene4 = false;
+
+                        ObjectInfoPopUp.anchoredPosition = Vector3.down * 1000;
+                        IsObjectClickedInScene4 = false;
+                        camera.GetComponent<Camera>().orthographic = true;
+                        
+                        
+                    
+                    }
+                    }
+                }
             }
         }
-        
-    } 
     
    }
+
+   public void PlantOnBtn() {
+       bool plantOn = currenttransform.GetComponent<Shelf>().plantOn;
+        if(plantOn == false) {
+            plantOn = true;
+            currenttransform.GetComponent<Shelf>().planttray1.SetActive(true);
+            currenttransform.GetComponent<Shelf>().planttray2.SetActive(true);
+            currenttransform.GetComponent<Shelf>().planttray3.SetActive(true);
+        }
+        else {
+            plantOn = false;
+            currenttransform.GetComponent<Shelf>().planttray1.SetActive(false);
+            currenttransform.GetComponent<Shelf>().planttray2.SetActive(false);
+            currenttransform.GetComponent<Shelf>().planttray3.SetActive(false);
+        }
+
+
+    }
+
+
+
+
+    
+
+    public void LightOnBtn() {
+       bool LightOn = currenttransform.GetComponent<Shelf>().LightOn;
+
+        if(LightOn) {
+            LightOn = false;
+            currenttransform.GetComponent<Shelf>().led1.SetActive(false);
+            currenttransform.GetComponent<Shelf>().led2.SetActive(false);
+            currenttransform.GetComponent<Shelf>().led3.SetActive(false);
+        } else {
+            LightOn = true;
+            currenttransform.GetComponent<Shelf>().led1.SetActive(true);
+            currenttransform.GetComponent<Shelf>().led2.SetActive(true);
+            currenttransform.GetComponent<Shelf>().led3.SetActive(true);
+        }
+      
+        
+    }
   
     public void Scale()
     {
@@ -82,7 +203,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Astate = false;
                 AssetPopUp.anchoredPosition = Vector3.down * 1000;
                 Gstate = false;
@@ -100,6 +221,48 @@ public class ButtonScript : MonoBehaviour
            }
     }
 
+    public void Go4Clicked() {
+        IsSceneFour = true;
+        GoBack2.SetActive(false);
+        GoBack3.SetActive(true);
+        ObjectButton.SetActive(false);
+        PollButton.SetActive(true);
+    }
+
+    public void PollButtonClicked() {
+
+        if(Pstate == true)
+            {
+                PollPopUp.anchoredPosition = Vector3.down * 1100;
+                Pstate = false;
+                
+            }
+        else {
+            PollPopUp.anchoredPosition = Vector3.zero;
+            Pstate = true;
+
+
+        }
+
+    }
+
+     public void PollButtonClose() {
+        PollPopUp.anchoredPosition = Vector3.down * 1000;
+
+    }
+
+
+
+     public void Go3Clicked() {
+        IsSceneFour = false;
+        GoBack2.SetActive(true);
+        GoBack3.SetActive(false);
+        ObjectButton.SetActive(true);
+        PollButton.SetActive(false);
+
+
+    }
+
     public void ObjectPopUpOn() {
         //카메라 위치
         Vector2 mousePos = Input.mousePosition;
@@ -113,12 +276,36 @@ public class ButtonScript : MonoBehaviour
         
     }
 
+   
+
+    public void ObjectPlacePopUpOn() {
+        //카메라 위치
+       
+        //Debug.Log(mousePos.ToString());
+        ObjectPlacePopup.anchoredPosition = new Vector2(518, -422);
+  
+        
+        /*RectTransformUtility.ScreenPointToLocalPointInRectangle(targetRectTr, Input.mousePosition, uiCamera, out screenPoint);
+        Debug.Log(screenPoint.ToString());
+        menuUITr.localPosition = screenPoint;*/
+        
+    }
+
+    public void ObjectPlacePopUpOff() {
+
+       
+        ObjectPlacePopup.anchoredPosition = Vector3.down * 1000;
+
+        
+    }
+
     public void ObjectInfoButtonClicked() {
         Debug.Log(currentGameObject.GetComponent<Shelf>().MaxWater);
     }
 
     public void ObjectDemolitionClicked() {
-        Destroy(currentGameObject);
+        Destroy(currenttransform.parent.gameObject);
+
         Debug.Log(currentGameObject.GetComponent<Shelf>().MaxWater);
 
     }
@@ -128,7 +315,7 @@ public class ButtonScript : MonoBehaviour
     }
 
      public void ObjectRePlaceClicked() {
-        Destroy(currentGameObject);
+        Destroy(currenttransform.parent.gameObject);
     }
 
 
@@ -137,7 +324,7 @@ public class ButtonScript : MonoBehaviour
         Sstate = false;
         ScalePopUp.anchoredPosition = Vector3.down * 1000;
         Ostate = false;
-        ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+        
         Astate = false;
         AssetPopUp.anchoredPosition = Vector3.down * 1000;
         Gstate = false;
@@ -152,7 +339,7 @@ public class ButtonScript : MonoBehaviour
     {
            if(Ostate == true)
            {
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                Ostate = false;
            }
            else
@@ -165,7 +352,7 @@ public class ButtonScript : MonoBehaviour
                 GrapicPopUp.anchoredPosition = Vector3.down * 1000;
                 Hstate = false;
                 HelpPopUp.anchoredPosition = Vector3.down * 1000;
-                ObjectPopUp.anchoredPosition = Vector3.zero;
+                
                Ostate = true;
 
            }
@@ -180,7 +367,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Sstate = false;
                 ScalePopUp.anchoredPosition = Vector3.down * 1000;
                 Gstate = false;
@@ -202,7 +389,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Astate = false;
                 AssetPopUp.anchoredPosition = Vector3.down * 1000;
                 Sstate = false;
@@ -224,7 +411,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Astate = false;
                 AssetPopUp.anchoredPosition = Vector3.down * 1000;
                 Gstate = false;

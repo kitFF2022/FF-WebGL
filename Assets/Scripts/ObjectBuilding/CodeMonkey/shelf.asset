@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: shelf
   m_EditorClassIdentifier: 
   nameString: shelf
-  prefab: {fileID: 6231476100217439230, guid: 9c9330fee24aeac42909adff78ea8fe6, type: 3}
-  visual: {fileID: 8815803868359332374, guid: 5f930a49e20736c4f83c4c544000cb82, type: 3}
+  prefab: {fileID: 8229898875657237484, guid: 11160bad93c8cd549aac8f7d364a85ac, type: 3}
+  visual: {fileID: 7701244121110795324, guid: ca70f4a4b8afdff429ac87dd636c7557, type: 3}
   GhostRedvisual: {fileID: 0}
   water: 0
   light: []
