@@ -24,6 +24,10 @@ public class Window_Graph : MonoBehaviour {
     private int whosTheMain = 0;
     private int GraphWater;
     private int GraphHumid;
+    private int GraphTemp;
+    private int GraphLight;
+
+
 
     // Cached values
     private List<int> valueList;
@@ -33,8 +37,8 @@ public class Window_Graph : MonoBehaviour {
     private Func<float, string> getAxisLabelY;
 
     List<int> co2valueList = new List<int>() { 5, 98, 56, 45, 30, 22, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33, 45, 54};
-    List<int> tempvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
-    List<int> LightvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+    List<int> tempvalueList = new List<int>() {0};
+    List<int> LightvalueList = new List<int>() {0};
     List<int> WatervalueList = new List<int>() {0};
     List<int> HumidvalueList = new List<int>() {0};
 
@@ -146,7 +150,8 @@ public class Window_Graph : MonoBehaviour {
     void FixedUpdate() {
         WaterInGraph();
         HumidInGraph();
-        
+        TempInGraph();
+        LightInGraph();
     }
 
     private void WaterInGraph() {
@@ -171,6 +176,32 @@ public class Window_Graph : MonoBehaviour {
             IGraphVisual HumidChartVisual = new LineGraphVisual(graphContainer, dotSprite, Humidcolor, new Color(1, 1, 1, .5f));
 
             SetGraphVisual(HumidvalueList, HumidChartVisual);
+        }
+        
+    }
+
+    private void TempInGraph() {
+        GraphTemp = (int)Room.Instance.ReturnTemp();
+        tempvalueList.Add(GraphTemp);
+        if (whosTheMain == 1) {
+            Color tempcolor;
+            ColorUtility.TryParseHtmlString("#F58570", out tempcolor);
+            IGraphVisual TempChartVisual = new LineGraphVisual(graphContainer, dotSprite, tempcolor, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(tempvalueList, TempChartVisual);
+        }
+        
+    }
+
+    private void LightInGraph() {
+        GraphLight = (int)Room.Instance.ReturnLight();
+        LightvalueList.Add(GraphLight);
+        if (whosTheMain == 2) {
+            Color Lightcolor;
+            ColorUtility.TryParseHtmlString("#FFF659", out Lightcolor);
+            IGraphVisual  LightChartVisual = new LineGraphVisual(graphContainer, dotSprite, Lightcolor, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(LightvalueList, LightChartVisual);
         }
         
     }

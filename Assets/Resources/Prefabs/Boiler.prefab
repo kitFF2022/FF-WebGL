@@ -29,6 +29,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.2503986, y: 3.0084777, z: 2.845982}
   m_Center: {x: -0.12071669, y: -1.2095857, z: -0.0000007748604}
+--- !u!114 &5598690237888262240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634264017301905451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f4aa7c8011aae4088786b458da5eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boilerOn: 0
+  boilerGoalTemp: 0
 --- !u!1 &8839538713428238859
 GameObject:
   m_ObjectHideFlags: 0
@@ -38,7 +52,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3670193661765482384}
-  - component: {fileID: 1549647408815749381}
   m_Layer: 10
   m_Name: Boiler
   m_TagString: Object
@@ -61,18 +74,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1549647408815749381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8839538713428238859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3f4aa7c8011aae4088786b458da5eaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4823782448389594490
 PrefabInstance:
   m_ObjectHideFlags: 0
