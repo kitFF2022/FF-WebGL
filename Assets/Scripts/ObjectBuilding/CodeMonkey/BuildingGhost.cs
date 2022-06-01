@@ -62,9 +62,10 @@ public class BuildingGhost : MonoBehaviour {
         PlacedObjectTypeSO placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
 
         if (placedObjectTypeSO != null) {
-            visual = Instantiate(placedObjectTypeSO.visual, Vector3.zero, Quaternion.identity);
+            Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition();
+            visual = Instantiate(placedObjectTypeSO.visual, targetPosition, Quaternion.identity);
             //visual.parent = transform;
-            visual.localPosition = Vector3.zero;
+            visual.localPosition = targetPosition;
             visual.localEulerAngles = Vector3.zero;
             SetLayerRecursive(visual.gameObject, 8);
         }

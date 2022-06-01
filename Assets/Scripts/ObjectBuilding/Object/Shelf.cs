@@ -34,7 +34,7 @@ public class Shelf : MonoBehaviour
     public void Start() {
         
         Debug.Log("shelf satrt");
-        plantInWater = 1f;
+        plantInWater = 10f;
         plantOuthumid = 0.5f;
         /*PlantOnButton = GameObject.Find("PlantOn").GetComponent<Button>();
         PlantOnButton.onClick.AddListener(() => PlantOnBtn());
@@ -49,6 +49,8 @@ public class Shelf : MonoBehaviour
         ChumidChanged();
         LightChanged();
     }
+
+  
 
     private void CWaterChanged() {
         if(plantOn) {

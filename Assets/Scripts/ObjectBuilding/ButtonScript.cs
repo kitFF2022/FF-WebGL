@@ -41,8 +41,12 @@ public class ButtonScript : MonoBehaviour
     public GameObject WindowInfo;
     public GameObject Co2MakerInfo;
     public GameObject BoilerPower;
+    public GameObject Co2Power;
 
     public Text BoilText;
+    public Text Co2Text;
+    public Text ShelfWaterText;
+
 
     public RectTransform PollPopUp;
 
@@ -83,7 +87,12 @@ public class ButtonScript : MonoBehaviour
         if(IsObjectClickedInScene4 == false) {
             camera.transform.eulerAngles = new Vector3(90,0,0);
         }
-
+        if(currentGameObject != null) {
+            if(currentGameObject.name == "Shelf Without Crates") {
+            ShelfWaterText.text = currenttransform.GetComponent<Shelf>().CurrentWater.ToString();
+        }
+        }
+        
 
         if (Input.GetMouseButtonUp(0)) {          // 왼 클릭으로 취소
 
@@ -143,13 +152,31 @@ public class ButtonScript : MonoBehaviour
                         Debug.Log(currentGameObject.name);
                         if(currentGameObject.name == "Shelf Without Crates") {
                             ShelfInfo.SetActive(true);
+                            Co2MakerInfo.SetActive(false);
                             BoilerInfo.SetActive(false);
+                            
+
                         }
                         if(currentGameObject.name == "cistern") {
                             BoilerInfo.SetActive(true);
+                            Co2MakerInfo.SetActive(false);
                             ShelfInfo.SetActive(false);
 
                         }
+                        if(currentGameObject.name == "co2Maker") {
+                            Co2MakerInfo.SetActive(true);
+                            ShelfInfo.SetActive(false);
+                            BoilerInfo.SetActive(false);
+
+
+                        } 
+                        if(currentGameObject.name == "gaz_tank") {
+                             ShelfInfo.SetActive(false);
+                            Co2MakerInfo.SetActive(false);
+                            BoilerInfo.SetActive(false);
+
+                        }
+                        
                         
 
                     } else {
@@ -160,6 +187,7 @@ public class ButtonScript : MonoBehaviour
 
                         ObjectInfoPopUp.anchoredPosition = Vector3.down * 1200;
                         ShelfInfo.SetActive(false);
+                        Co2MakerInfo.SetActive(false);
                         BoilerInfo.SetActive(false);
 
                         IsObjectClickedInScene4 = false;
@@ -223,7 +251,35 @@ public class ButtonScript : MonoBehaviour
         BoilText.text = currenttransform.GetComponent<Boiler>().boilerGoalTemp.ToString();
     }
 
+    public void Co2P() {
+        currenttransform.GetComponent<Co2Maker>().Co2Goal += 1;
+        Co2Text.text = currenttransform.GetComponent<Co2Maker>().Co2Goal.ToString();
+    }  
     
+    public void Co2M() {
+        currenttransform.GetComponent<Co2Maker>().Co2Goal -=1;
+        Co2Text.text = currenttransform.GetComponent<Co2Maker>().Co2Goal.ToString();
+    }
+
+    public void Co2OnBtn() {
+       bool BoilerOn = currenttransform.GetComponent<Co2Maker>().Co2On;
+       Debug.Log(BoilerOn);
+        if(BoilerOn == false) {
+            currenttransform.GetComponent<Co2Maker>().Co2On= true;
+            Co2Power.GetComponent<Image>().color = Color.green;
+            Co2Text.text = currenttransform.GetComponent<Co2Maker>().Co2Goal.ToString();
+
+
+        }
+        else {
+            currenttransform.GetComponent<Co2Maker>().Co2On = false;
+            Co2Power.GetComponent<Image>().color = Color.red;
+
+
+        }
+
+
+    }
 
     public void LightOnBtn() {
        bool LightOn = currenttransform.GetComponent<Shelf>().LightOn;

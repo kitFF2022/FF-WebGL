@@ -40,10 +40,20 @@ public class ObjectCollision : MonoBehaviour
 
             collisionOn = 1;
         } 
+        if (other.transform.tag == "Wall") {
+            //Debug.Log("if");
+
+            collisionOn = 1;
+        } 
     }
     void OnTriggerExit(Collider other) 
 	{
 		if (other.transform.tag == "Object") {
+            //Debug.Log("if");
+
+            collisionOn = 0;
+        } 
+        if (other.transform.tag == "Wall") {
             //Debug.Log("if");
 
             collisionOn = 0;

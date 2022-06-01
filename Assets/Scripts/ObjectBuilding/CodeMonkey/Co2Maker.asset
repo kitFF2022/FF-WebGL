@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Co2Maker
   m_EditorClassIdentifier: 
   nameString: 
-  prefab: {fileID: 0}
-  visual: {fileID: 0}
+  prefab: {fileID: 5768366286525209564, guid: 4bc4850924b766b4382e2baa8bbab16f, type: 3}
+  visual: {fileID: 4834565193878548712, guid: fa9a224aaef97e64eb62a718fad3cff0, type: 3}
   GhostRedvisual: {fileID: 0}
   water: 0
   light: []
