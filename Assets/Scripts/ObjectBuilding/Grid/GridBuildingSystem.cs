@@ -243,7 +243,13 @@ public class GridBuildingSystem : MonoBehaviour {
 
     public Quaternion GetPlacedObjectRotation() {
         if (placedObjectTypeSO != null) {
+            if (placedObjectTypeSO == placedObjectTypeSOList[2]){
+                return Quaternion.Euler(-90, ObjectRotation, 0);
+
+            } else {
             return Quaternion.Euler(0, ObjectRotation+90, 0);
+
+            }
         } else {
             return Quaternion.identity;
         }

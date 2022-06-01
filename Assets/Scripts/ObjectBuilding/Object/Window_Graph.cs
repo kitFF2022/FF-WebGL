@@ -20,6 +20,11 @@ public class Window_Graph : MonoBehaviour {
     private List<IGraphVisualObject> graphVisualObjectList;
     private GameObject tooltipGameObject;
 
+
+    private int whosTheMain = 0;
+    private int GraphWater;
+    private int GraphHumid;
+
     // Cached values
     private List<int> valueList;
     private IGraphVisual graphVisual;
@@ -30,8 +35,8 @@ public class Window_Graph : MonoBehaviour {
     List<int> co2valueList = new List<int>() { 5, 98, 56, 45, 30, 22, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33, 45, 54};
     List<int> tempvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
     List<int> LightvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
-    List<int> WatervalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
-    List<int> HumidvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+    List<int> WatervalueList = new List<int>() {0};
+    List<int> HumidvalueList = new List<int>() {0};
 
 
     private void Awake() {
@@ -90,25 +95,34 @@ public class Window_Graph : MonoBehaviour {
     
 
         //ShowGraph(co2valueList, co2GraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
-        ShowGraph(tempvalueList, tempChartVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
+        ShowGraph(co2valueList, co2GraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
 
-        transform.Find("barChartBtn").GetComponent<Button_UI>().ClickFunc = () => {
-            co2valueList.Add(1);
+        transform.Find("barChartBtn").GetComponent<Button_UI>().ClickFunc = () => { //co2
+            //co2valueList.Add(1);
             SetGraphVisual(co2valueList, co2GraphVisual);
+            whosTheMain = 0;
 
         };
-        transform.Find("lineGraphBtn").GetComponent<Button_UI>().ClickFunc = () => {
+        transform.Find("lineGraphBtn").GetComponent<Button_UI>().ClickFunc = () => { //temp
             SetGraphVisual(tempvalueList, tempChartVisual);
+            whosTheMain = 1;
+
         };
 
-        transform.Find("LightBtn").GetComponent<Button_UI>().ClickFunc = () => {
+        transform.Find("LightBtn").GetComponent<Button_UI>().ClickFunc = () => { //light
             SetGraphVisual(LightvalueList, LightChartVisual);
+            whosTheMain = 2;
+
         };
-        transform.Find("WaterBtn").GetComponent<Button_UI>().ClickFunc = () => {
+        transform.Find("WaterBtn").GetComponent<Button_UI>().ClickFunc = () => { // water
             SetGraphVisual(WatervalueList, WaterChartVisual);
+            whosTheMain = 3;
+
         };
-        transform.Find("HumidityBtn").GetComponent<Button_UI>().ClickFunc = () => {
+        transform.Find("HumidityBtn").GetComponent<Button_UI>().ClickFunc = () => { // hum
             SetGraphVisual(HumidvalueList, HumidChartVisual);
+            whosTheMain = 4;
+
         };
         
         /*
@@ -129,6 +143,37 @@ public class Window_Graph : MonoBehaviour {
         //*/
     }
 
+    void FixedUpdate() {
+        WaterInGraph();
+        HumidInGraph();
+        
+    }
+
+    private void WaterInGraph() {
+        GraphWater = (int)Room.Instance.ReturnWater();
+        WatervalueList.Add(GraphWater);
+        if (whosTheMain == 3) {
+            Color Watercolor;
+            ColorUtility.TryParseHtmlString("#4BB8FB", out Watercolor);
+            IGraphVisual WaterChartVisual = new LineGraphVisual(graphContainer, dotSprite, Watercolor, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(WatervalueList, WaterChartVisual);
+        }
+        
+    }
+
+    private void HumidInGraph() {
+        GraphHumid = (int)Room.Instance.ReturnHumid();
+        HumidvalueList.Add(GraphHumid);
+        if (whosTheMain == 4) {
+            Color Humidcolor;
+            ColorUtility.TryParseHtmlString("#3041CB", out Humidcolor);
+            IGraphVisual HumidChartVisual = new LineGraphVisual(graphContainer, dotSprite, Humidcolor, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(HumidvalueList, HumidChartVisual);
+        }
+        
+    }
     public static void ShowTooltip_Static(string tooltipText, Vector2 anchoredPosition) {
         instance.ShowTooltip(tooltipText, anchoredPosition);
     }

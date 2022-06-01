@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class WaterTank : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+
+    public float MaxWaterTank = 1000;
+    public float CurrentWaterTank;
+
+
+
+
+    void Start() {
+        Room.Instance.RoomWaterOn();
+        Room.Instance.giveWater(MaxWaterTank);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
 }

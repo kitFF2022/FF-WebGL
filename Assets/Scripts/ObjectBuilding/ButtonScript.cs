@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ButtonScript : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class ButtonScript : MonoBehaviour
     public bool Pstate = false;
 
     public RectTransform ScalePopUp;
-    public RectTransform ObjectPopUp;
+    public RectTransform ObjectInfoPopUp;
     public RectTransform AssetPopUp;
     public RectTransform GrapicPopUp;
     public RectTransform HelpPopUp;
@@ -108,7 +109,7 @@ public class ButtonScript : MonoBehaviour
         if (Input.GetMouseButtonUp(0)) {
             if(IsSceneFour == true) {
                 if(placedObjectTypeSO == null) {
-
+                    if(!EventSystem.current.IsPointerOverGameObject()) {
                     if(Mouse3D.GetMouseClickedObject()) {  
                         IsObjectClickedInScene4 = true;
                         RaycastHit raycastHit = Mouse3D.GetMouseClickedObjectHit();
@@ -127,6 +128,7 @@ public class ButtonScript : MonoBehaviour
                         cameraController.GetComponent<CameraController>().SetToggle(false);
                         camera.GetComponent<Camera>().orthographic = false;
                         //camera.position = Vector3.Lerp(camera.position, currenttransformFront, 0.05f); 
+                        ObjectInfoPopUp.anchoredPosition = new Vector2(478, -2);
                         
 
                     } else {
@@ -135,18 +137,60 @@ public class ButtonScript : MonoBehaviour
                         camera.position = currenttransformFront;
                         //IsObjectClickedInScene4 = false;
 
-                        ObjectStatePopup.anchoredPosition = Vector3.down * 1000;
+                        ObjectInfoPopUp.anchoredPosition = Vector3.down * 1000;
                         IsObjectClickedInScene4 = false;
                         camera.GetComponent<Camera>().orthographic = true;
                         
                         
                     
                     }
+                    }
                 }
             }
         }
     
    }
+
+   public void PlantOnBtn() {
+       bool plantOn = currenttransform.GetComponent<Shelf>().plantOn;
+        if(plantOn == false) {
+            plantOn = true;
+            currenttransform.GetComponent<Shelf>().planttray1.SetActive(true);
+            currenttransform.GetComponent<Shelf>().planttray2.SetActive(true);
+            currenttransform.GetComponent<Shelf>().planttray3.SetActive(true);
+        }
+        else {
+            plantOn = false;
+            currenttransform.GetComponent<Shelf>().planttray1.SetActive(false);
+            currenttransform.GetComponent<Shelf>().planttray2.SetActive(false);
+            currenttransform.GetComponent<Shelf>().planttray3.SetActive(false);
+        }
+
+
+    }
+
+
+
+
+    
+
+    public void LightOnBtn() {
+       bool LightOn = currenttransform.GetComponent<Shelf>().LightOn;
+
+        if(LightOn) {
+            LightOn = false;
+            currenttransform.GetComponent<Shelf>().led1.SetActive(false);
+            currenttransform.GetComponent<Shelf>().led2.SetActive(false);
+            currenttransform.GetComponent<Shelf>().led3.SetActive(false);
+        } else {
+            LightOn = true;
+            currenttransform.GetComponent<Shelf>().led1.SetActive(true);
+            currenttransform.GetComponent<Shelf>().led2.SetActive(true);
+            currenttransform.GetComponent<Shelf>().led3.SetActive(true);
+        }
+      
+        
+    }
   
     public void Scale()
     {
@@ -159,7 +203,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Astate = false;
                 AssetPopUp.anchoredPosition = Vector3.down * 1000;
                 Gstate = false;
@@ -232,6 +276,8 @@ public class ButtonScript : MonoBehaviour
         
     }
 
+   
+
     public void ObjectPlacePopUpOn() {
         //카메라 위치
        
@@ -278,7 +324,7 @@ public class ButtonScript : MonoBehaviour
         Sstate = false;
         ScalePopUp.anchoredPosition = Vector3.down * 1000;
         Ostate = false;
-        ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+        
         Astate = false;
         AssetPopUp.anchoredPosition = Vector3.down * 1000;
         Gstate = false;
@@ -293,7 +339,7 @@ public class ButtonScript : MonoBehaviour
     {
            if(Ostate == true)
            {
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                Ostate = false;
            }
            else
@@ -306,7 +352,7 @@ public class ButtonScript : MonoBehaviour
                 GrapicPopUp.anchoredPosition = Vector3.down * 1000;
                 Hstate = false;
                 HelpPopUp.anchoredPosition = Vector3.down * 1000;
-                ObjectPopUp.anchoredPosition = Vector3.zero;
+                
                Ostate = true;
 
            }
@@ -321,7 +367,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Sstate = false;
                 ScalePopUp.anchoredPosition = Vector3.down * 1000;
                 Gstate = false;
@@ -343,7 +389,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Astate = false;
                 AssetPopUp.anchoredPosition = Vector3.down * 1000;
                 Sstate = false;
@@ -365,7 +411,7 @@ public class ButtonScript : MonoBehaviour
            else
            {
                 Ostate = false;
-                ObjectPopUp.anchoredPosition = Vector3.down * 1000;
+                
                 Astate = false;
                 AssetPopUp.anchoredPosition = Vector3.down * 1000;
                 Gstate = false;

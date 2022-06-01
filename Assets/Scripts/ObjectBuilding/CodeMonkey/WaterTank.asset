@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WaterTank
   m_EditorClassIdentifier: 
   nameString: WaterTank
-  prefab: {fileID: 1632741662927070088, guid: 3c614be9476632f47a0f1780c3b7a9ad, type: 3}
-  visual: {fileID: 1718302228349512261, guid: 562a7a04d83e4ee4eb7dd1df737eb540, type: 3}
+  prefab: {fileID: 1752850124633756585, guid: 151b8e637f29bcb499c09cb3716a63c7, type: 3}
+  visual: {fileID: 7233589157513761917, guid: 3c614be9476632f47a0f1780c3b7a9ad, type: 3}
   GhostRedvisual: {fileID: 0}
   water: 0
   light: []
