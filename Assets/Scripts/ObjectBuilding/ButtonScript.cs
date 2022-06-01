@@ -89,7 +89,8 @@ public class ButtonScript : MonoBehaviour
         }
         if(currentGameObject != null) {
             if(currentGameObject.name == "Shelf Without Crates") {
-            ShelfWaterText.text = currenttransform.GetComponent<Shelf>().CurrentWater.ToString();
+            int wt =(int)currenttransform.GetComponent<Shelf>().CurrentWater;
+            ShelfWaterText.text = wt.ToString();
         }
         }
         
@@ -369,6 +370,7 @@ public class ButtonScript : MonoBehaviour
         GoBack3.SetActive(false);
         ObjectButton.SetActive(true);
         PollButton.SetActive(false);
+        PollPopUp.anchoredPosition = Vector3.down * 1100;
 
 
     }

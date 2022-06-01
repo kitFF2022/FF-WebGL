@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Collections;
 
 public class Shelf : MonoBehaviour
 {
@@ -30,12 +31,15 @@ public class Shelf : MonoBehaviour
     public GameObject led3;
     private Button PlantOnButton;
     private Button LEDOnButton;
+    public float rand;
 
     public void Start() {
         
         Debug.Log("shelf satrt");
-        plantInWater = 10f;
-        plantOuthumid = 0.5f;
+        plantInWater = 1f;
+        plantOuthumid = 1f;
+        rand = UnityEngine.Random.Range(0.01f, 0.2f);
+
         /*PlantOnButton = GameObject.Find("PlantOn").GetComponent<Button>();
         PlantOnButton.onClick.AddListener(() => PlantOnBtn());
         LEDOnButton = GameObject.Find("LEDOn").GetComponent<Button>();
@@ -64,12 +68,12 @@ public class Shelf : MonoBehaviour
                         roomWater -= MaxWater;
                         Room.Instance.giveWater(roomWater);
                         CurrentWater = MaxWater;
-                        CurrentWater -= plantInWater;
+                        CurrentWater -= plantInWater * rand;
                         
                     }
                 }
                 else {
-                    CurrentWater -= plantInWater;
+                    CurrentWater -= plantInWater * rand;
                 }    
             } else {
                 CurrentWater = CurrentWater;
@@ -84,7 +88,7 @@ public class Shelf : MonoBehaviour
         if(plantOn) {
             float roomhumid = Room.Instance.ReturnHumid();
             if(roomhumid <100) {
-                roomhumid += plantOuthumid;
+                roomhumid += plantOuthumid*rand;
                 Room.Instance.giveHumid(roomhumid);
             }
        
