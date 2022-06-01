@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using CodeMonkey.Utils;
 
 public class ButtonScript : MonoBehaviour
 {
@@ -33,6 +35,19 @@ public class ButtonScript : MonoBehaviour
     public GameObject GoBack3;
     public GameObject ObjectButton;
     public GameObject PollButton;
+    public GameObject ShelfInfo;
+    public GameObject BoilerInfo;
+    public GameObject WaterTankInfo;
+    public GameObject WindowInfo;
+    public GameObject Co2MakerInfo;
+    public GameObject BoilerPower;
+    public GameObject Co2Power;
+
+    public Text BoilText;
+    public Text Co2Text;
+    public Text ShelfWaterText;
+
+
     public RectTransform PollPopUp;
 
 
@@ -72,7 +87,12 @@ public class ButtonScript : MonoBehaviour
         if(IsObjectClickedInScene4 == false) {
             camera.transform.eulerAngles = new Vector3(90,0,0);
         }
-
+        if(currentGameObject != null) {
+            if(currentGameObject.name == "Shelf Without Crates") {
+            ShelfWaterText.text = currenttransform.GetComponent<Shelf>().CurrentWater.ToString();
+        }
+        }
+        
 
         if (Input.GetMouseButtonUp(0)) {          // 왼 클릭으로 취소
 
@@ -129,6 +149,34 @@ public class ButtonScript : MonoBehaviour
                         camera.GetComponent<Camera>().orthographic = false;
                         //camera.position = Vector3.Lerp(camera.position, currenttransformFront, 0.05f); 
                         ObjectInfoPopUp.anchoredPosition = new Vector2(478, -2);
+                        Debug.Log(currentGameObject.name);
+                        if(currentGameObject.name == "Shelf Without Crates") {
+                            ShelfInfo.SetActive(true);
+                            Co2MakerInfo.SetActive(false);
+                            BoilerInfo.SetActive(false);
+                            
+
+                        }
+                        if(currentGameObject.name == "cistern") {
+                            BoilerInfo.SetActive(true);
+                            Co2MakerInfo.SetActive(false);
+                            ShelfInfo.SetActive(false);
+
+                        }
+                        if(currentGameObject.name == "co2Maker") {
+                            Co2MakerInfo.SetActive(true);
+                            ShelfInfo.SetActive(false);
+                            BoilerInfo.SetActive(false);
+
+
+                        } 
+                        if(currentGameObject.name == "gaz_tank") {
+                             ShelfInfo.SetActive(false);
+                            Co2MakerInfo.SetActive(false);
+                            BoilerInfo.SetActive(false);
+
+                        }
+                        
                         
 
                     } else {
@@ -137,7 +185,11 @@ public class ButtonScript : MonoBehaviour
                         camera.position = currenttransformFront;
                         //IsObjectClickedInScene4 = false;
 
-                        ObjectInfoPopUp.anchoredPosition = Vector3.down * 1000;
+                        ObjectInfoPopUp.anchoredPosition = Vector3.down * 1200;
+                        ShelfInfo.SetActive(false);
+                        Co2MakerInfo.SetActive(false);
+                        BoilerInfo.SetActive(false);
+
                         IsObjectClickedInScene4 = false;
                         camera.GetComponent<Camera>().orthographic = true;
                         
@@ -154,13 +206,13 @@ public class ButtonScript : MonoBehaviour
    public void PlantOnBtn() {
        bool plantOn = currenttransform.GetComponent<Shelf>().plantOn;
         if(plantOn == false) {
-            plantOn = true;
+            currenttransform.GetComponent<Shelf>().plantOn = true;
             currenttransform.GetComponent<Shelf>().planttray1.SetActive(true);
             currenttransform.GetComponent<Shelf>().planttray2.SetActive(true);
             currenttransform.GetComponent<Shelf>().planttray3.SetActive(true);
         }
         else {
-            plantOn = false;
+            currenttransform.GetComponent<Shelf>().plantOn = false;
             currenttransform.GetComponent<Shelf>().planttray1.SetActive(false);
             currenttransform.GetComponent<Shelf>().planttray2.SetActive(false);
             currenttransform.GetComponent<Shelf>().planttray3.SetActive(false);
@@ -170,20 +222,75 @@ public class ButtonScript : MonoBehaviour
     }
 
 
+    public void BoilerOnBtn() {
+       bool BoilerOn = currenttransform.GetComponent<Boiler>().boilerOn;
+       Debug.Log(BoilerOn);
+        if(BoilerOn == false) {
+            currenttransform.GetComponent<Boiler>().boilerOn= true;
+            BoilerPower.GetComponent<Image>().color = Color.green;
+
+        }
+        else {
+            currenttransform.GetComponent<Boiler>().boilerOn = false;
+            BoilerPower.GetComponent<Image>().color = Color.red;
 
 
+        }
+
+
+    }
+
+
+    public void BoilerP() {
+        currenttransform.GetComponent<Boiler>().boilerGoalTemp += 1;
+        BoilText.text = currenttransform.GetComponent<Boiler>().boilerGoalTemp.ToString();
+    }  
     
+    public void BoilerM() {
+        currenttransform.GetComponent<Boiler>().boilerGoalTemp -=1;
+        BoilText.text = currenttransform.GetComponent<Boiler>().boilerGoalTemp.ToString();
+    }
+
+    public void Co2P() {
+        currenttransform.GetComponent<Co2Maker>().Co2Goal += 1;
+        Co2Text.text = currenttransform.GetComponent<Co2Maker>().Co2Goal.ToString();
+    }  
+    
+    public void Co2M() {
+        currenttransform.GetComponent<Co2Maker>().Co2Goal -=1;
+        Co2Text.text = currenttransform.GetComponent<Co2Maker>().Co2Goal.ToString();
+    }
+
+    public void Co2OnBtn() {
+       bool BoilerOn = currenttransform.GetComponent<Co2Maker>().Co2On;
+       Debug.Log(BoilerOn);
+        if(BoilerOn == false) {
+            currenttransform.GetComponent<Co2Maker>().Co2On= true;
+            Co2Power.GetComponent<Image>().color = Color.green;
+            Co2Text.text = currenttransform.GetComponent<Co2Maker>().Co2Goal.ToString();
+
+
+        }
+        else {
+            currenttransform.GetComponent<Co2Maker>().Co2On = false;
+            Co2Power.GetComponent<Image>().color = Color.red;
+
+
+        }
+
+
+    }
 
     public void LightOnBtn() {
        bool LightOn = currenttransform.GetComponent<Shelf>().LightOn;
 
         if(LightOn) {
-            LightOn = false;
+            currenttransform.GetComponent<Shelf>().LightOn = false;
             currenttransform.GetComponent<Shelf>().led1.SetActive(false);
             currenttransform.GetComponent<Shelf>().led2.SetActive(false);
             currenttransform.GetComponent<Shelf>().led3.SetActive(false);
         } else {
-            LightOn = true;
+            currenttransform.GetComponent<Shelf>().LightOn = true;
             currenttransform.GetComponent<Shelf>().led1.SetActive(true);
             currenttransform.GetComponent<Shelf>().led2.SetActive(true);
             currenttransform.GetComponent<Shelf>().led3.SetActive(true);
@@ -246,8 +353,11 @@ public class ButtonScript : MonoBehaviour
 
     }
 
+
+
      public void PollButtonClose() {
         PollPopUp.anchoredPosition = Vector3.down * 1000;
+
 
     }
 

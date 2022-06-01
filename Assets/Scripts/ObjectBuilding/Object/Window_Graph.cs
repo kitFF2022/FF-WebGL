@@ -24,6 +24,12 @@ public class Window_Graph : MonoBehaviour {
     private int whosTheMain = 0;
     private int GraphWater;
     private int GraphHumid;
+    private int GraphTemp;
+    private int GraphLight;
+    private int GraphCo2;
+
+
+
 
     // Cached values
     private List<int> valueList;
@@ -32,9 +38,11 @@ public class Window_Graph : MonoBehaviour {
     private Func<int, string> getAxisLabelX;
     private Func<float, string> getAxisLabelY;
 
-    List<int> co2valueList = new List<int>() { 5, 98, 56, 45, 30, 22, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33, 45, 54};
-    List<int> tempvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
-    List<int> LightvalueList = new List<int>() { 53, 5, 43, 52, 65, 71, 25, 30, 61, 98, 40, 88, 70, 61, 30, 45, 67, 88, 98};
+    List<int> FakevalueList = new List<int>() {0,0,2,0,0,0,0,0,0,0,0,0,0,0};
+
+    List<int> co2valueList = new List<int>() {0};
+    List<int> tempvalueList = new List<int>() {0};
+    List<int> LightvalueList = new List<int>() {0};
     List<int> WatervalueList = new List<int>() {0};
     List<int> HumidvalueList = new List<int>() {0};
 
@@ -94,7 +102,7 @@ public class Window_Graph : MonoBehaviour {
         
     
 
-        //ShowGraph(co2valueList, co2GraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
+        ShowGraph(FakevalueList, co2GraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
         ShowGraph(co2valueList, co2GraphVisual, -1, (int _i) => (_i *10)+ "m"  , (float _f) => "" + Mathf.RoundToInt(_f));
 
         transform.Find("barChartBtn").GetComponent<Button_UI>().ClickFunc = () => { //co2
@@ -146,6 +154,20 @@ public class Window_Graph : MonoBehaviour {
     void FixedUpdate() {
         WaterInGraph();
         HumidInGraph();
+        TempInGraph();
+        LightInGraph();
+        Co2InGraph();
+    }
+
+    private void Co2InGraph() {
+        GraphCo2 = (int)Room.Instance.ReturnCo2();
+        co2valueList.Add(GraphCo2);
+        if (whosTheMain == 0) {
+
+            IGraphVisual co2GraphVisual = new LineGraphVisual(graphContainer, dotSprite, Color.green, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(co2valueList, co2GraphVisual);
+        }
         
     }
 
@@ -171,6 +193,32 @@ public class Window_Graph : MonoBehaviour {
             IGraphVisual HumidChartVisual = new LineGraphVisual(graphContainer, dotSprite, Humidcolor, new Color(1, 1, 1, .5f));
 
             SetGraphVisual(HumidvalueList, HumidChartVisual);
+        }
+        
+    }
+
+    private void TempInGraph() {
+        GraphTemp = (int)Room.Instance.ReturnTemp();
+        tempvalueList.Add(GraphTemp);
+        if (whosTheMain == 1) {
+            Color tempcolor;
+            ColorUtility.TryParseHtmlString("#F58570", out tempcolor);
+            IGraphVisual TempChartVisual = new LineGraphVisual(graphContainer, dotSprite, tempcolor, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(tempvalueList, TempChartVisual);
+        }
+        
+    }
+
+    private void LightInGraph() {
+        GraphLight = (int)Room.Instance.ReturnLight();
+        LightvalueList.Add(GraphLight);
+        if (whosTheMain == 2) {
+            Color Lightcolor;
+            ColorUtility.TryParseHtmlString("#FFF659", out Lightcolor);
+            IGraphVisual  LightChartVisual = new LineGraphVisual(graphContainer, dotSprite, Lightcolor, new Color(1, 1, 1, .5f));
+
+            SetGraphVisual(LightvalueList, LightChartVisual);
         }
         
     }
@@ -233,9 +281,9 @@ public class Window_Graph : MonoBehaviour {
         this.graphVisual = graphVisual;
         this.getAxisLabelX = getAxisLabelX;
         this.getAxisLabelY = getAxisLabelY;
-        if (maxVisibleValueAmount <= 0) {
+        if (maxVisibleValueAmount <= 7) {
             // Show all if no amount specified
-            maxVisibleValueAmount = valueList.Count;
+            maxVisibleValueAmount = 7;
         }
         if (maxVisibleValueAmount > valueList.Count) {
             // Validate the amount to show the maximum

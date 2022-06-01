@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class Boiler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public bool boilerOn;
+    public int boilerGoalTemp;
+    private float boilerUpTemp;
+
+
+
+    void Start() {
+        boilerOn = false;
+        boilerGoalTemp = 0;
+        boilerUpTemp = 0.5f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void FixedUpdate() {
+        CTempChanged();
+        Debug.Log(boilerOn);
+    }
+
+    public void CTempChanged() {
+        if(boilerOn) {
+            float roomTemp = Room.Instance.ReturnTemp();
+            if(roomTemp<boilerGoalTemp) {
+                roomTemp += boilerUpTemp;
+                Room.Instance.giveTemp(roomTemp);
+            } else {
+                roomTemp = roomTemp;
+            }
+        }
     }
 }
