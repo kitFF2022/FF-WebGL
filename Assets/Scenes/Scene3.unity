@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: e16fabc0785a9f5449aba419884b6a4b,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -185,7 +185,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
@@ -263,7 +263,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -341,7 +341,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
@@ -1220,7 +1220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &526840021
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1839,7 +1839,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
@@ -2910,7 +2910,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
@@ -3199,7 +3199,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -3629,7 +3629,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
@@ -3726,7 +3726,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -3804,7 +3804,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
@@ -4754,7 +4754,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -5265,7 +5265,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -5378,7 +5378,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -5542,11 +5542,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 219502721877304325, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 219502722036244996, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 219502722166041326, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 219502722312153618, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_IsActive
@@ -5762,6 +5774,12 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\uC120\uBC18"
       objectReference: {fileID: 0}
+    - target: {fileID: 219502722971195639, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 219502722971751400, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_RootOrder
@@ -5822,6 +5840,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 219502722985328929, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 219502723041220032, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5938,6 +5962,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Object_Info_Popup
       objectReference: {fileID: 0}
+    - target: {fileID: 219502723834079409, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 219502723931242761, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_Name
@@ -6078,6 +6108,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 743644382570114408, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
+    - target: {fileID: 1183511787494960622, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 1580194173006142618, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6169,6 +6211,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 454.02
       objectReference: {fileID: 0}
+    - target: {fileID: 4725882166037122132, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 4735816931244960018, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6179,6 +6227,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 292262457}
+    - target: {fileID: 6059993524412176853, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
+    - target: {fileID: 6126339828332227977, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
+        type: 3}
     - target: {fileID: 6210201859374235173, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_IsActive
@@ -6234,6 +6294,12 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ea1b7f52f7aa360439cd7b90d6f04dd0,
+        type: 3}
+    - target: {fileID: 7107876360329885718, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: aaf2800e93f20bd4b82054e8ee397431,
         type: 3}
     - target: {fileID: 7901059033718758967, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
