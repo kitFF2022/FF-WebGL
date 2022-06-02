@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class MainUiEvent : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class MainUiEvent : MonoBehaviour
     [SerializeField] Button PrevBtn1;
     [SerializeField] Button PrevBtn2;
     [SerializeField] Button NextSceneBtn;
+    [SerializeField] VideoPlayer videobga;
     RectTransform rectProObj;
 
     Vector2 ProObjDes;
@@ -31,6 +33,8 @@ public class MainUiEvent : MonoBehaviour
         PrevBtn1.onClick.AddListener(() => PrevBtnClicked());
         PrevBtn2.onClick.AddListener(() => PrevBtnClicked());
         NextSceneBtn.onClick.AddListener(() => nextSceneBtnClicked());
+        videobga.url = System.IO.Path.Combine(Application.streamingAssetsPath, "video.mp4");
+        videobga.Play();
     }
 
     // Update is called once per frame
