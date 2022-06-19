@@ -16,11 +16,14 @@ public class MainUiEvent : MonoBehaviour
     [SerializeField] Button PrevBtn2;
     [SerializeField] Button NextSceneBtn;
     [SerializeField] VideoPlayer videobga;
+    [SerializeField] Text newProNameInputText;
+    [SerializeField] GameObject DataObject;
     RectTransform rectProObj;
 
     Vector2 ProObjDes;
     Vector2 velocity = Vector2.zero;
     float smoothTime = 0.3f;
+    string projectName;
     void Start()
     {
         rectProObj = ProObj.GetComponent<RectTransform>();
@@ -59,6 +62,16 @@ public class MainUiEvent : MonoBehaviour
 
     void nextSceneBtnClicked()
     {
+        if (newProNameInputText.text == "")
+        {
+            //todo: shake input field newProNameInput
+            return;
+        }
+        else
+        {
+            projectName = newProNameInputText.text;
+        }
+        DataObject.GetComponent<Datas>().PostProject(projectName);
         SceneManager.LoadScene("SpaceManager");
     }
 }
