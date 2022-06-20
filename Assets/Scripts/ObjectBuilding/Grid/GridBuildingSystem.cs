@@ -10,8 +10,15 @@ public class GridBuildingSystem : MonoBehaviour {
     public static GridBuildingSystem Instance { get; private set; }
 
     public event EventHandler OnSelectedChanged;
-    
+    public List<GameObject> co2;
+    public List<GameObject> watertank;
+    public List<GameObject> Boiler;
+    public List<GameObject> shelf;
+    GameObject dataObject;
 
+    Datas data;
+    
+    public List<List<GameObject>> objectlist;
 
     private GridXZ<GridObject> grid;
     [SerializeField] private List<PlacedObjectTypeSO> placedObjectTypeSOList = null;
@@ -24,6 +31,12 @@ public class GridBuildingSystem : MonoBehaviour {
     
     private void Awake() {
         Instance = this;
+        co2 = new List<GameObject>();
+        watertank = new List<GameObject>();
+        Boiler = new List<GameObject>();
+        shelf = new List<GameObject>();
+
+        objectlist = new List<List<GameObject>>();
 
         
         int gridWidth = 10;
@@ -32,6 +45,10 @@ public class GridBuildingSystem : MonoBehaviour {
         grid = new GridXZ<GridObject>(gridWidth, gridHeight, cellSize, new Vector3(0, 0, 0), (GridXZ<GridObject> g, int x, int z) => new GridObject(g, x, z));
         
         placedObjectTypeSO = null;// placedObjectTypeSOList[0];
+
+        dataObject = GameObject.FindGameObjectWithTag("Data");
+        data = dataObject.GetComponent<Datas>();
+
     }
     
 
@@ -152,7 +169,19 @@ public class GridBuildingSystem : MonoBehaviour {
         Vector3 ghostPosition = buildingGhost.visual.GetChild(0).transform.position;
         Debug.Log(ghostPosition);
 
-    }     
+    }   
+
+    public void saveBtnClicked() {
+        objectlist.Add(shelf);
+        objectlist.Add(Boiler);
+        objectlist.Add(watertank);
+        objectlist.Add(co2);
+
+        Debug.Log(data.currentProject);
+        data.SetObjectTransformList(objectlist);
+        string savedata = data.getProjectObjectTransformListJson();
+        data.PostProjectObjectData(savedata);
+    }  
 
     public void PlaceButtonClicked() {
         buildingGhost = ghost.GetComponent<BuildingGhost>();
@@ -167,7 +196,32 @@ public class GridBuildingSystem : MonoBehaviour {
             if (gridObject.CanBuild()) {
                 try {
                     Transform builtplacedObject = Instantiate(placedObjectTypeSO.prefab, ghostPosition, Quaternion.Euler(0, ObjectRotation, 0));
-                gridObject.SetPlacedObject(builtplacedObject);
+                    gridObject.SetPlacedObject(builtplacedObject);
+                    
+                    if (placedObjectTypeSO == placedObjectTypeSOList[0]) {
+                        shelf.Add(builtplacedObject.gameObject);
+                        Debug.Log("shelfAdded");
+
+                    }
+                    if (placedObjectTypeSO == placedObjectTypeSOList[1]) {
+
+                        Boiler.Add(builtplacedObject.gameObject);
+                        Debug.Log("BoilerAdded");
+
+                    }
+                    if (placedObjectTypeSO == placedObjectTypeSOList[2]) {
+
+                        watertank.Add(builtplacedObject.gameObject);
+                        Debug.Log("waterAdded");
+
+                    }
+                    if (placedObjectTypeSO == placedObjectTypeSOList[3]) {
+
+                        co2.Add(builtplacedObject.gameObject);
+                        Debug.Log("co2Added");
+
+                    }
+                
                 
                 }       
                 catch (NullReferenceException ex) {
@@ -188,6 +242,28 @@ public class GridBuildingSystem : MonoBehaviour {
                 try {
                     Transform builtplacedObject =  Instantiate(placedObjectTypeSO.prefab, ghostPosition, Quaternion.Euler(0, ObjectRotation, 0));
                     gridObject.SetPlacedObject(builtplacedObject);
+
+                    if (placedObjectTypeSO == placedObjectTypeSOList[0]) {
+                        
+                    shelf.Add(builtplacedObject.gameObject);
+                        Debug.Log("shelfAdded");
+
+                    }
+                    if (placedObjectTypeSO == placedObjectTypeSOList[1]) {
+                        Boiler.Add(builtplacedObject.gameObject);
+                        Debug.Log("BoilerAdded");
+
+                    }
+                    if (placedObjectTypeSO == placedObjectTypeSOList[2]) {
+                        watertank.Add(builtplacedObject.gameObject);
+                        Debug.Log("waterAdded");
+
+                    }
+                    if (placedObjectTypeSO == placedObjectTypeSOList[3]) {
+                        co2.Add(builtplacedObject.gameObject);
+                        Debug.Log("co2Added");
+
+                    }
                     
                 }       
                 catch (NullReferenceException ex) {
