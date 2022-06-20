@@ -13,6 +13,40 @@ public class ProjectName
 public class Datas : MonoBehaviour
 {
     [System.Serializable]
+    public class jsonProjectObjectDataObject
+    {
+        public int objectId;
+        public List<float> Position;
+        public List<float> Rotation;
+        public List<float> Scale;
+        public static jsonProjectObjectDataObject CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<jsonProjectObjectDataObject>(jsonString);
+        }
+        public string SaveToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
+    }
+
+    [System.Serializable]
+    public class jsonProjectObjectData
+    {
+        public int ObjectCount;
+        public List<jsonProjectObjectDataObject> Objects;
+        public static jsonProjectObjectData CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<jsonProjectObjectData>(jsonString);
+        }
+        public string SaveToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
+    }
+
+
+
+    [System.Serializable]
     public class jsonProjectDataWall
     {
         public List<float> Position;
@@ -81,6 +115,8 @@ public class Datas : MonoBehaviour
     public bool currentProjectInitialized;
     public bool currentProjectDataLoad;
     jsonProjectData projectdata;
+    jsonProjectObjectData projectObjectData;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,6 +145,63 @@ public class Datas : MonoBehaviour
     void Update()
     {
 
+    }
+
+    // 0 -> shelf, 1-> boiler, 2 -> watertankm 3-> co2
+    public bool SetObjectTransformList(List<List<GameObject>> objectList)
+    {
+        if (objectList == null)
+        {
+            Debug.Log("objectList is null");
+            return false;
+        }
+        else
+        {
+            projectObjectData = new jsonProjectObjectData();
+            projectObjectData.Objects = new List<jsonProjectObjectDataObject>();
+            projectObjectData.ObjectCount = objectList[2].Count + objectList[0].Count + objectList[1].Count;
+            projectObjectData.ObjectCount = projectObjectData.ObjectCount + objectList[3].Count;
+            int index = 0;
+            for (int j = 0; j < objectList.Count; j++)
+            {
+                for (int i = 0; i < objectList[j].Count; i++)
+                {
+                    float posx = objectList[j][i].transform.position.x;
+                    float posy = objectList[j][i].transform.position.y;
+                    float posz = objectList[j][i].transform.position.z;
+                    List<float> pos = new List<float>();
+                    pos.Add(posx);
+                    pos.Add(posy);
+                    pos.Add(posz);
+                    float rotx = objectList[j][i].transform.rotation.eulerAngles.x;
+                    float roty = objectList[j][i].transform.rotation.eulerAngles.y;
+                    float rotz = objectList[j][i].transform.rotation.eulerAngles.z;
+                    List<float> rot = new List<float>();
+                    rot.Add(rotx);
+                    rot.Add(roty);
+                    rot.Add(rotz);
+                    float sclx = objectList[j][i].transform.localScale.x;
+                    float scly = objectList[j][i].transform.localScale.y;
+                    float sclz = objectList[j][i].transform.localScale.z;
+                    List<float> scl = new List<float>();
+                    scl.Add(sclx);
+                    scl.Add(scly);
+                    scl.Add(sclz);
+                    projectObjectData.Objects.Add(new jsonProjectObjectDataObject());
+                    projectObjectData.Objects[i + index].Position = pos;
+                    projectObjectData.Objects[i + index].Rotation = rot;
+                    projectObjectData.Objects[i + index].Scale = scl;
+                }
+                index = index + objectList[j].Count - 1;
+            }
+            Debug.Log("SetObjectTransformList complete");
+            return true;
+        }
+    }
+
+    public string getProjectObjectTransformListJson()
+    {
+        return projectObjectData.SaveToString();
     }
 
     public bool SetWallTransformList(List<GameObject> wallList)
