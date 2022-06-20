@@ -255,11 +255,11 @@ public class Datas : MonoBehaviour
             }
         }
     }
-    public void PostProjectData(string projectDataStr, int projectId) //projectDataStr might be change to another class
+    public void PostProjectData(string projectDataStr) //projectDataStr might be change to another class
     {
         //todo: projectDataJson.......
-        if (projectId == 0) return;
-        else StartCoroutine(APIPostProjectData(projectDataJson, projectId));
+        if (currentProject == 0) return;
+        else StartCoroutine(APIPostProjectData(projectDataStr, currentProject));
     }
 
 
@@ -287,10 +287,9 @@ public class Datas : MonoBehaviour
     }
     public void GetProjectObjectData(int projectId)
     {
-        if (projectId == 0) return;
-        else StartCoroutine(APIGetProjectObjectData(projectId));
+        if (currentProject == 0) return;
+        else StartCoroutine(APIGetProjectObjectData(currentProject));
     }
-
 
 
     IEnumerator APIPostProjectObjectData(string projectObjectData, int projectId) //projectObjectData might be change to another class
@@ -317,11 +316,10 @@ public class Datas : MonoBehaviour
             }
         }
     }
-    public void PostProjectObjectData(string projectObjectData, int projectId)
+    public void PostProjectObjectData(string projectObjectData)
     {
-        //todo: projectObjectDataJson..........
-        if (projectId == 0) return
-        else StartCoroutine(APIPostProjectObjectData(projectObjectDataJson, projectId));
+        if (currentProject == 0) return;
+        else StartCoroutine(APIPostProjectObjectData(projectObjectData, currentProject));
     }
 
 
