@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Runtime.InteropServices;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ProjectName
 {
@@ -9,26 +12,97 @@ public class ProjectName
 }
 public class Datas : MonoBehaviour
 {
-    [System.Runtime.InteropServices.DllImport("__Internal")]
-    static extern string getToken();
+    [System.Serializable]
+    public class jsonProjectDataWall
+    {
+        public List<float> Position;
+        public List<float> Rotation;
+        public List<float> Scale;
+        public static jsonProjectDataWall CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<jsonProjectDataWall>(jsonString);
+        }
+        public string SaveToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
+    }
+
+    [System.Serializable]
+    public class jsonProjectData
+    {
+        public int WallCount;
+        public List<jsonProjectDataWall> Walls;
+        public static jsonProjectData CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<jsonProjectData>(jsonString);
+        }
+        public string SaveToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
+    }
+
+    [System.Serializable]
+    public class jsonProject
+    {
+        public int id;
+        public string Name;
+        public string Owner;
+        public string Data;
+        public string ProfilePic;
+
+        public static jsonProject CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<jsonProject>(jsonString);
+        }
+    }
+    [System.Serializable]
+    public class jsonMessage
+    {
+        public List<jsonProject> message;
+
+        public static jsonMessage CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<jsonMessage>(jsonString);
+        }
+    }
+
+    [SerializeField] Button OldProjectPrefabBtn;
+    [SerializeField] GameObject MainSceneScrollViewContent;
+
     string APIbaseURL;
     string token;
-    List<List<float>> WallPositionList;
-    List<List<float>> WallRotationList;
-    List<List<float>> WallScaleList;
-    List<List<List<float>>> WallTransformList;
+    public jsonMessage projectsFromServer;
+    public jsonProjectData projectDataFromServer;
     bool networkStatus;
-    int currentProject;
+    public int currentProject;
+    public List<Button> OldProjectBtnList;
+    public bool currentProjectInitialized;
+    public bool currentProjectDataLoad;
+    jsonProjectData projectdata;
     // Start is called before the first frame update
     void Start()
     {
+        int browserParam = Application.absoluteURL.IndexOf("?");
+        if (browserParam != -1)
+        {
+            token = Application.absoluteURL.Split("?"[0])[1];
+            token = token.Substring(6);
+        }
+        else
+        {
+            token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFbWFpbGFkZHIiOiJjYW5hbjgxODFAZ21haWwuY29tIiwiZXhwaXJlcyI6MTY1NTc0NjMwMy43NDcyODc4fQ.9EAL7aLIu3Aw0Wz19zeewD76GZZe1-3OA3iE2QTWaeQ";
+            //todo: alarm to browser
+        }
+        Debug.Log("token -> " + token);
+
         APIbaseURL = "http://mmyu.direct.quickconnect.to:8880";
-        setUserToken();
-        WallPositionList = new List<List<float>>();
-        WallRotationList = new List<List<float>>();
-        WallScaleList = new List<List<float>>();
         networkStatus = false;
         currentProject = 0;
+        currentProjectInitialized = false;
+        OldProjectBtnList = new List<Button>();
+        currentProjectDataLoad = false;
     }
 
     // Update is called once per frame
@@ -36,102 +110,100 @@ public class Datas : MonoBehaviour
     {
 
     }
-    //////////////////////
-    // WE NEED TEST!!!! //
-    //////////////////////
-    public static Dictionary<string, string> GetBrowserParameters()
-    {
-        Dictionary<string, string> ret =
-            new Dictionary<string, string>();
-        System.Uri uri = new System.Uri(getToken());
-        string linkParams = uri.Query;
-
-        if (linkParams.Length == 0)
-            return ret;
-        if (linkParams[0] == '?')
-            linkParams = linkParams.Substring(1);
-        string[] sections = linkParams.Split(new char[] { '&' }, System.StringSplitOptions.RemoveEmptyEntries);
-        foreach (string sec in sections)
-        {
-            string[] split = sec.Split(new char[] { '=' }, System.StringSplitOptions.RemoveEmptyEntries);
-            if (split.Length == 0)
-                continue;
-            if (split.Length == 2)
-            {
-                if (ret.ContainsKey(split[0]) == true)
-                    ret[split[0]] = split[1];
-                else
-                    ret.Add(split[0], split[1]);
-            }
-            else
-            {
-                if (ret.ContainsKey(sec) == true)
-                    ret[sec] = "";
-                else
-                    ret.Add(sec, "");
-            }
-
-        }
-        return ret;
-    }
-    //////////////////////
-    // WE NEED TEST!!!! //
-    //////////////////////
-    bool setUserToken()
-    {
-        Dictionary<string, string> browserParameters = GetBrowserParameters();
-        if (browserParameters.Count == 0)
-            return false;
-        else
-        {
-            foreach (KeyValuePair<string, string> keyValuePair in browserParameters)
-            {
-                if (keyValuePair.Key == "token")
-                {
-                    token = keyValuePair.Value;
-                    Debug.Log(token);
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
 
     public bool SetWallTransformList(List<GameObject> wallList)
     {
-        if (wallList == null) return false;
+        if (wallList == null)
+        {
+            Debug.Log("SetWallTransformList failed");
+            return false;
+        }
         else
         {
+            projectdata = new jsonProjectData();
+            projectdata.Walls = new List<jsonProjectDataWall>();
+            projectdata.WallCount = wallList.Count - 1;
             for (int i = 0; i < wallList.Count - 1; i++)
             {
-                List<float> temp = new List<float>();
-                temp.Add(wallList[i].transform.position.x);
-                temp.Add(wallList[i].transform.position.y);
-                temp.Add(wallList[i].transform.position.z);
-                List<float> temp2 = new List<float>();
-                temp2.Add(wallList[i].transform.rotation.eulerAngles.x);
-                temp2.Add(wallList[i].transform.rotation.eulerAngles.y);
-                temp2.Add(wallList[i].transform.rotation.eulerAngles.z);
-                List<float> temp3 = new List<float>();
-                temp3.Add(wallList[i].transform.localScale.x);
-                temp3.Add(wallList[i].transform.localScale.y);
-                temp3.Add(wallList[i].transform.localScale.z);
-                WallPositionList.Add(temp);
-                WallRotationList.Add(temp2);
-                WallScaleList.Add(temp3);
+                float posx = wallList[i].transform.position.x;
+                float posy = wallList[i].transform.position.y;
+                float posz = wallList[i].transform.position.z;
+                List<float> pos = new List<float>();
+                pos.Add(posx);
+                pos.Add(posy);
+                pos.Add(posz);
+                float rotx = wallList[i].transform.rotation.eulerAngles.x;
+                float roty = wallList[i].transform.rotation.eulerAngles.y;
+                float rotz = wallList[i].transform.rotation.eulerAngles.z;
+                List<float> rot = new List<float>();
+                rot.Add(rotx);
+                rot.Add(roty);
+                rot.Add(rotz);
+                float sclx = wallList[i].transform.localScale.x;
+                float scly = wallList[i].transform.localScale.y;
+                float sclz = wallList[i].transform.localScale.z;
+                List<float> scl = new List<float>();
+                scl.Add(sclx);
+                scl.Add(scly);
+                scl.Add(sclz);
+                projectdata.Walls.Add(new jsonProjectDataWall());
+                projectdata.Walls[i].Position = pos;
+                projectdata.Walls[i].Rotation = rot;
+                projectdata.Walls[i].Scale = scl;
             }
+            Debug.Log("SetWallTransformList complete");
             return true;
         }
     }
 
-    public List<List<List<float>>> GetWallTransformList()
+    public string getWallTransformListJson()
     {
-        WallTransformList = new List<List<List<float>>>();
-        WallTransformList.Add(WallPositionList);
-        WallTransformList.Add(WallRotationList);
-        WallTransformList.Add(WallScaleList);
-        return WallTransformList;
+        return projectdata.SaveToString();
     }
+
+    IEnumerator APIGetRecentProject()
+    {
+        string url = APIbaseURL + "/project";
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+            yield return request.SendWebRequest();
+            if (request.isNetworkError || request.isHttpError)
+            {
+                Debug.Log(request.error);
+                networkStatus = false;
+                //todo: error message popup
+            }
+            else
+            {
+                Debug.Log(request.downloadHandler.text);
+                projectsFromServer = jsonMessage.CreateFromJson(request.downloadHandler.text);
+                networkStatus = true;
+                int last = projectsFromServer.message.Count - 1;
+                currentProject = projectsFromServer.message[last].id;
+                currentProjectInitialized = true;
+                Debug.Log(currentProject);
+                SceneManager.LoadScene("SpaceManager");
+            }
+        }
+    }
+    public bool GetRecentProject()
+    {
+        StartCoroutine(APIGetRecentProject());
+        return true;
+    }
+
+
+    public void OldProjectBtnClicked(int projectId)
+    {
+        currentProject = projectId;
+        currentProjectInitialized = true;
+        Debug.Log(currentProject);
+        SceneManager.LoadScene("SpaceManager");
+    }
+
 
 
     IEnumerator APIGetProjects()
@@ -152,6 +224,16 @@ public class Datas : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
+                projectsFromServer = jsonMessage.CreateFromJson(request.downloadHandler.text);
+                for (int i = 0; i < projectsFromServer.message.Count; i++)
+                {
+                    Button button = Instantiate(OldProjectPrefabBtn) as Button;
+                    button.transform.SetParent(MainSceneScrollViewContent.transform);
+                    button.GetComponentInChildren<Text>().text = projectsFromServer.message[i].Name;
+                    int temp = projectsFromServer.message[i].id;
+                    button.onClick.AddListener(() => OldProjectBtnClicked(temp));
+                    OldProjectBtnList.Add(button);
+                }
                 networkStatus = true;
             }
         }
@@ -187,7 +269,7 @@ public class Datas : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
-                networkStatus = true;
+                GetRecentProject();
             }
         }
 
@@ -219,7 +301,14 @@ public class Datas : MonoBehaviour
             }
             else
             {
+                string jsontemp = request.downloadHandler.text.Replace('\'', '\"');
+                jsontemp = jsontemp.Substring(12);
+                jsontemp = jsontemp.Substring(0, jsontemp.Length - 2);
                 Debug.Log(request.downloadHandler.text);
+                Debug.Log(request.downloadHandler.text.Replace('\'', '\"'));
+                Debug.Log(jsontemp);
+                projectDataFromServer = jsonProjectData.CreateFromJson(jsontemp);
+                currentProjectDataLoad = true;
                 networkStatus = true;
             }
         }

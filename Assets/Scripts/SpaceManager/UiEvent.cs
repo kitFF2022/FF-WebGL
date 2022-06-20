@@ -22,6 +22,7 @@ public class UiEvent : MonoBehaviour
     [SerializeField] Button snapBtn;
     [SerializeField] Button PrevBtn;
     [SerializeField] Button NextBtn;
+    GameObject DataObject;
 
     bool drawBtnToggle;
 
@@ -35,12 +36,14 @@ public class UiEvent : MonoBehaviour
     Vector3 cameraTarget = new Vector3(0, 30, 0);
     Vector3 velocity = Vector3.zero;
     float smoothTime = 0.3f;
+    Datas data;
 
     bool snapping = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        DataObject = GameObject.FindGameObjectWithTag("Data");
         drawBtn.onClick.AddListener(() => DrawBtnClicked());
         distPBtn.onClick.AddListener(() => DistPClicked());
         distMBtn.onClick.AddListener(() => DistMClicked());
@@ -58,11 +61,44 @@ public class UiEvent : MonoBehaviour
         pressed = false;
         wallList = new List<GameObject>();
         wallPrefab = Resources.Load("Prefabs/Wall") as GameObject;
+        data = DataObject.GetComponent<Datas>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (data.currentProjectInitialized)
+        {
+            data.GetProjectData(data.currentProject);
+            data.currentProjectInitialized = false;
+        }
+        if (data.currentProjectDataLoad)
+        {
+            for (int i = 0; i < data.projectDataFromServer.WallCount; i++)
+            {
+                GameObject wall = MonoBehaviour.Instantiate(wallPrefab) as GameObject;
+                float x = data.projectDataFromServer.Walls[i].Position[0];
+                float y = data.projectDataFromServer.Walls[i].Position[1];
+                float z = data.projectDataFromServer.Walls[i].Position[2];
+                wall.transform.position = new Vector3(x, y, z);
+                x = data.projectDataFromServer.Walls[i].Rotation[0];
+                y = data.projectDataFromServer.Walls[i].Rotation[1];
+                z = data.projectDataFromServer.Walls[i].Rotation[2];
+                wall.transform.rotation = Quaternion.Euler(new Vector3(x, y, z));
+                x = data.projectDataFromServer.Walls[i].Scale[0];
+                y = data.projectDataFromServer.Walls[i].Scale[1];
+                z = data.projectDataFromServer.Walls[i].Scale[2];
+                wall.transform.localScale = new Vector3(x, y, z);
+                wallList.Add(wall);
+            }
+            data.currentProjectDataLoad = false;
+            Debug.Log(data.projectDataFromServer.WallCount);
+            Debug.Log("there is data we draw walls");
+            drawBtnToggle = true;
+            anText.text = "";
+            anText.gameObject.SetActive(false);
+        }
         if (drawBtnToggle)
         {
             RaycastHit hit;
@@ -223,8 +259,16 @@ public class UiEvent : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
+    void makeProjectDataStr()
+    {
+
+    }
+
     void nextSceneBtnClicked()
     {
+        data.SetWallTransformList(wallList);
+        string projectDataStr = data.getWallTransformListJson();
+        data.PostProjectData(projectDataStr);
         SceneManager.LoadScene("Scene3");
     }
 }

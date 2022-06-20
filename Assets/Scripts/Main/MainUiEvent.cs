@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
 public class MainUiEvent : MonoBehaviour
@@ -18,12 +17,15 @@ public class MainUiEvent : MonoBehaviour
     [SerializeField] VideoPlayer videobga;
     [SerializeField] Text newProNameInputText;
     [SerializeField] GameObject DataObject;
+    [SerializeField] Button oldProjectsBtn;
+    [SerializeField] GameObject scrollViewportContent;
     RectTransform rectProObj;
 
     Vector2 ProObjDes;
     Vector2 velocity = Vector2.zero;
     float smoothTime = 0.3f;
     string projectName;
+    List<Button> oldProjectBtnList;
     void Start()
     {
         rectProObj = ProObj.GetComponent<RectTransform>();
@@ -52,6 +54,8 @@ public class MainUiEvent : MonoBehaviour
 
     void OldProBtnClicked()
     {
+        if (DataObject.GetComponent<Datas>().OldProjectBtnList.Count == 0)
+            DataObject.GetComponent<Datas>().GetProjects();
         ProObjDes = new Vector2(-Screen.width, 0);
     }
 
@@ -71,7 +75,7 @@ public class MainUiEvent : MonoBehaviour
         {
             projectName = newProNameInputText.text;
         }
+        //after PostProject it will load new scene
         DataObject.GetComponent<Datas>().PostProject(projectName);
-        SceneManager.LoadScene("SpaceManager");
     }
 }

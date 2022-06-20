@@ -6,4 +6,7 @@ mergeInto(LibraryManager.library, {
         stringToUTF8(token, buffer, tokenLen);
         return token;
     },
+    Hello: function () {
+        window.alert("Hello, world!");
+    },
 });
