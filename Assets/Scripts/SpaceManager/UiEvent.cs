@@ -60,7 +60,7 @@ public class UiEvent : MonoBehaviour
         drawBtnToggle = false;
         pressed = false;
         wallList = new List<GameObject>();
-        wallPrefab = Resources.Load("Prefabs/Wall") as GameObject;
+        wallPrefab = Resources.Load("Prefabs/Wall_red") as GameObject;
         data = DataObject.GetComponent<Datas>();
     }
 
@@ -264,11 +264,11 @@ public class UiEvent : MonoBehaviour
 
     }
 
+    //it will load scene3 
     void nextSceneBtnClicked()
     {
         data.SetWallTransformList(wallList);
         string projectDataStr = data.getWallTransformListJson();
         data.PostProjectData(projectDataStr);
-        SceneManager.LoadScene("Scene3");
     }
 }

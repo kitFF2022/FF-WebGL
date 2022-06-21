@@ -49,6 +49,7 @@ public class Datas : MonoBehaviour
     [System.Serializable]
     public class jsonProjectDataWall
     {
+        public int objectId;
         public List<float> Position;
         public List<float> Rotation;
         public List<float> Scale;
@@ -109,13 +110,15 @@ public class Datas : MonoBehaviour
     string token;
     public jsonMessage projectsFromServer;
     public jsonProjectData projectDataFromServer;
+    public jsonProjectObjectData projectObjectDataFromServer;
     bool networkStatus;
     public int currentProject;
     public List<Button> OldProjectBtnList;
     public bool currentProjectInitialized;
     public bool currentProjectDataLoad;
-    jsonProjectData projectdata;
+    public jsonProjectData projectdata;
     jsonProjectObjectData projectObjectData;
+    public bool currentProjectObjectDataLoad;
 
     // Start is called before the first frame update
     void Start()
@@ -128,7 +131,7 @@ public class Datas : MonoBehaviour
         }
         else
         {
-            token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFbWFpbGFkZHIiOiJjYW5hbjgxODFAZ21haWwuY29tIiwiZXhwaXJlcyI6MTY1NTc0NjMwMy43NDcyODc4fQ.9EAL7aLIu3Aw0Wz19zeewD76GZZe1-3OA3iE2QTWaeQ";
+            token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFbWFpbGFkZHIiOiJjYW5hbjgxODFAZ21haWwuY29tIiwiZXhwaXJlcyI6MTY1NTc2NjY1Mi44MzM4MDg0fQ.n-aOGur_I0LaExiQjojMceRb3OxhmvsqgHVk-uTU6_g";
             //todo: alarm to browser
         }
         Debug.Log("token -> " + token);
@@ -139,6 +142,7 @@ public class Datas : MonoBehaviour
         currentProjectInitialized = false;
         OldProjectBtnList = new List<Button>();
         currentProjectDataLoad = false;
+        currentProjectObjectDataLoad = false;
     }
 
     // Update is called once per frame
@@ -191,8 +195,10 @@ public class Datas : MonoBehaviour
                     projectObjectData.Objects[i + index].Position = pos;
                     projectObjectData.Objects[i + index].Rotation = rot;
                     projectObjectData.Objects[i + index].Scale = scl;
+                    projectObjectData.Objects[i + index].objectId = j;
                 }
-                index = index + objectList[j].Count - 1;
+                if (objectList[j].Count != 0)
+                    index = index + objectList[j].Count;
             }
             Debug.Log("SetObjectTransformList complete");
             return true;
@@ -408,8 +414,7 @@ public class Datas : MonoBehaviour
     }
     public void GetProjectData(int projectId)
     {
-        if (projectId == 0) return;
-        else StartCoroutine(APIGetProjectData(projectId));
+        StartCoroutine(APIGetProjectData(projectId));
     }
 
 
@@ -433,6 +438,8 @@ public class Datas : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
+                GetProjectObjectData(currentProject);
+                SceneManager.LoadScene("Scene3");
                 networkStatus = true;
             }
         }
@@ -440,8 +447,7 @@ public class Datas : MonoBehaviour
     public void PostProjectData(string projectDataStr) //projectDataStr might be change to another class
     {
         //todo: projectDataJson.......
-        if (currentProject == 0) return;
-        else StartCoroutine(APIPostProjectData(projectDataStr, currentProject));
+        StartCoroutine(APIPostProjectData(projectDataStr, currentProject));
     }
 
 
@@ -462,15 +468,21 @@ public class Datas : MonoBehaviour
             }
             else
             {
+                string jsontemp = request.downloadHandler.text.Replace('\'', '\"');
+                jsontemp = jsontemp.Substring(12);
+                jsontemp = jsontemp.Substring(0, jsontemp.Length - 2);
                 Debug.Log(request.downloadHandler.text);
+                Debug.Log(request.downloadHandler.text.Replace('\'', '\"'));
+                Debug.Log(jsontemp);
+                projectObjectDataFromServer = jsonProjectObjectData.CreateFromJson(jsontemp);
+                currentProjectObjectDataLoad = true;
                 networkStatus = true;
             }
         }
     }
     public void GetProjectObjectData(int projectId)
     {
-        if (currentProject == 0) return;
-        else StartCoroutine(APIGetProjectObjectData(currentProject));
+        StartCoroutine(APIGetProjectObjectData(projectId));
     }
 
 
@@ -500,8 +512,7 @@ public class Datas : MonoBehaviour
     }
     public void PostProjectObjectData(string projectObjectData)
     {
-        if (currentProject == 0) return;
-        else StartCoroutine(APIPostProjectObjectData(projectObjectData, currentProject));
+        StartCoroutine(APIPostProjectObjectData(projectObjectData, currentProject));
     }
 
 
