@@ -24,6 +24,7 @@ public class GridBuildingSystem : MonoBehaviour
     private GridXZ<GridObject> grid;
     [SerializeField] private List<PlacedObjectTypeSO> placedObjectTypeSOList = null;
     [SerializeField] private GameObject ghost;
+    [SerializeField] private GameObject saveText;
 
     BuildingGhost buildingGhost;
     private PlacedObjectTypeSO placedObjectTypeSO;
@@ -65,7 +66,7 @@ public class GridBuildingSystem : MonoBehaviour
         int gridWidth = 400;
         int gridHeight = 400;
         float cellSize = 2f;
-        grid = new GridXZ<GridObject>(gridWidth, gridHeight, cellSize, new Vector3(-240, 0, 240), (GridXZ<GridObject> g, int x, int z) => new GridObject(g, x, z));
+        grid = new GridXZ<GridObject>(gridWidth, gridHeight, cellSize, new Vector3(-240, 0, -240), (GridXZ<GridObject> g, int x, int z) => new GridObject(g, x, z));
 
         placedObjectTypeSO = null;// placedObjectTypeSOList[0];
 
@@ -222,7 +223,16 @@ public class GridBuildingSystem : MonoBehaviour
         data.SetObjectTransformList(objectlist);
         string savedata = data.getProjectObjectTransformListJson();
         data.PostProjectObjectData(savedata);
+        saveText.SetActive(true);
+        StartCoroutine(waitforsave());
+
     }
+
+    IEnumerator waitforsave() {
+        yield return new WaitForSeconds(1.0f);
+        saveText.SetActive(false);
+    }
+
 
     public void PlaceButtonClicked()
     {
