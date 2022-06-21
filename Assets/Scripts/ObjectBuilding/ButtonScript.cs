@@ -34,6 +34,7 @@ public class ButtonScript : MonoBehaviour
     public RectTransform ObjectPlacePopup;
     public GameObject GoBack2;
     public GameObject GoBack3;
+    public GameObject Go4;
     public GameObject ObjectButton;
     public GameObject PollButton;
     public GameObject ShelfInfo;
@@ -374,6 +375,7 @@ public class ButtonScript : MonoBehaviour
         IsSceneFour = true;
         GoBack2.SetActive(false);
         GoBack3.SetActive(true);
+        Go4.SetActive(false);
         ObjectButton.SetActive(false);
         PollButton.SetActive(true);
     }
@@ -413,6 +415,7 @@ public class ButtonScript : MonoBehaviour
         IsSceneFour = false;
         GoBack2.SetActive(true);
         GoBack3.SetActive(false);
+        Go4.SetActive(true);
         ObjectButton.SetActive(true);
         PollButton.SetActive(false);
         PollPopUp.anchoredPosition = Vector3.down * 1100;

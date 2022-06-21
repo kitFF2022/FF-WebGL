@@ -1292,6 +1292,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 219502723389758730}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &441294255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7020358079642180318, guid: e738956a8bc5bac45819f332254e3e4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 219502723389758730}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &498711275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5514,6 +5520,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 219502722711437099, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
+      propertyPath: Go4
+      value: 
+      objectReference: {fileID: 441294255}
+    - target: {fileID: 219502722711437099, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 2138417748}
@@ -6027,12 +6038,12 @@ PrefabInstance:
     - target: {fileID: 4199238526406505447, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.7216981
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4199238526406505447, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.7216981
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4199238526406505447, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
@@ -6133,6 +6144,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ea1b7f52f7aa360439cd7b90d6f04dd0,
         type: 3}
+    - target: {fileID: 7020358079642180318, guid: e738956a8bc5bac45819f332254e3e4e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7107876360329885718, guid: e738956a8bc5bac45819f332254e3e4e,
         type: 3}
       propertyPath: m_FontData.m_Font
@@ -6473,6 +6489,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CrossHair
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000190719899643445, guid: 3b4c1d172a4fb024ca6e3a9821bf8855,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9000190719899643446, guid: 3b4c1d172a4fb024ca6e3a9821bf8855,
         type: 3}

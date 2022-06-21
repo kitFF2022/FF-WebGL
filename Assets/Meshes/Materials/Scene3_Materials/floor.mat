@@ -122,7 +122,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
-        m_Texture: {fileID: 2800000, guid: c5a754ebe8d4a5f4e8c3927f5deb298f, type: 3}
+        m_Texture: {fileID: 2800000, guid: a00547a5d0d068e449a013419dd5f6a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularColorMap:
